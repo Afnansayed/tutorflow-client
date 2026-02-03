@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { userRegister } from '@/components/Authentication/userRegister';
-import VerifyOtpModal from '@/components/Authentication/VerifyOtpModal';
 
 interface RegisterFormInputs {
   name: string;

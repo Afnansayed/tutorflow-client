@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { setToken, setUserInfo } from '@/components/Redux/Slice/authSlice';
 import { useAppDispatch } from '@/components/Redux/hooks';
 import { useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
 
 interface LoginFormInputs {
   email: string;
@@ -36,29 +37,36 @@ const LoginPage = () => {
     reset,
   } = useForm<LoginFormInputs>();
 
-  const onSubmit = async (data: LoginFormInputs) => {
+  const onSubmit = async (value: LoginFormInputs) => {
     setLoading(true);
     const toastId = toast.loading('Logging in...');
     try {
-      const res = await userLogin(data);
-      if (res?.data?.token) {
-        const { user, token } = res?.data;
-        dispatch(setToken({ accessToken: token }));
-        dispatch(
-          setUserInfo({
-            email: user.email,
-            name: user.name,
-            category: user.category,
-            email_verified: user.email_verified,
-          })
-        );
-        reset();
-        toast.success('Login Successful', { id: toastId, duration: 2000 });
-        const redirectRoute = sessionStorage.getItem('redirect_to');
-        router.push(redirectRoute ? JSON.parse(redirectRoute) : '/dashboard');
-      } else {
-        toast.error(res?.data?.message || 'Invalid credentials', {
+      const { data, error } = await authClient.signIn.email(value);
+      console.log({ data });
+      console.log({ error });
+
+      if (data) {
+        if (data?.token) {
+          const { user, token } = data;
+          dispatch(setToken({ accessToken: token }));
+          dispatch(
+            setUserInfo({
+              email: user.email,
+              name: user.name,
+              email_verified: user.emailVerified,
+            })
+          );
+          reset();
+          toast.success('Login Successful', { id: toastId, duration: 2000 });
+          const redirectRoute = sessionStorage.getItem('redirect_to');
+          router.push(redirectRoute ? JSON.parse(redirectRoute) : '/dashboard');
+        }
+      }
+
+      if (error) {
+        toast.error((error as any).message || 'Invalid credential', {
           id: toastId,
+          duration: 2000,
         });
       }
     } catch (err) {
@@ -70,9 +78,6 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[#F9FBFC]">
-      {' '}
-      {/* Very soft off-white bg */}
-      {/* Background Decor - Muted Glows */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]" />

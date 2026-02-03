@@ -1,10 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 type TUserInfo = {
   email: string;
   name: string;
-  category: string | null;
   email_verified: boolean;
 };
 
@@ -19,7 +18,7 @@ const initialState: TAuthState = {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setToken: (state, action) => {
