@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { userRegister } from '@/components/Authentication/userRegister';
+import { authClient } from '@/lib/auth-client';
 
 interface RegisterFormInputs {
   name: string;
@@ -45,30 +46,32 @@ const RegisterPage = () => {
     };
     console.log({ registerData });
 
-    // try {
-    //   const response = await userRegister(registerData);
-    //   // যদি সার্ভার থেকে কোনো ভ্যালিডেশন এরর আসে
-    //   if (response?.data?.errors) {
-    //     const errors = response.data.errors as Record<string, string[]>;
-    //     const errorMessages = Object.entries(errors)
-    //       .map(([key, messages]) => `${key}: ${messages.join(', ')}`)
-    //       .join('\n');
+    try {
+      const { data, error } = await authClient.signUp.email(registerData);
+      if (error) {
+        toast.error((error as any).message || 'Invalid credential', {
+          id: toastId,
+          duration: 2000,
+        });
+      }
 
-    //     toast.error(errorMessages, { id: toastId });
-    //   } else {
-    //     toast.error(
-    //       response?.data?.message || 'Registration failed. Please try again.',
-    //       { id: toastId }
-    //     );
-    //   }
-    // } catch (err) {
-    //   console.error('Registration Error:', err);
-    //   toast.error('Something went wrong. Please check your connection.', {
-    //     id: toastId,
-    //   });
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (data) {
+        toast.success(
+          'verification email send . please check your inbox and verify the email',
+          {
+            id: toastId,
+            duration: 2000,
+          }
+        );
+      }
+    } catch (err) {
+      console.error('Registration Error:', err);
+      toast.error('Something went wrong. Please check your connection.', {
+        id: toastId,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
