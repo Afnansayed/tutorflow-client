@@ -1,15 +1,23 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { toast } from "sonner";
-import { userRegister } from "@/components/Authentication/userRegister";
-import VerifyOtpModal from "@/components/Authentication/VerifyOtpModal";
+import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useState } from 'react';
+import {
+  Eye,
+  EyeOff,
+  GraduationCap,
+  User,
+  Mail,
+  Lock,
+  ArrowRight,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { userRegister } from '@/components/Authentication/userRegister';
+import VerifyOtpModal from '@/components/Authentication/VerifyOtpModal';
 
-interface LoginFormInputs {
+interface RegisterFormInputs {
   name: string;
   email: string;
   password: string;
@@ -17,203 +25,200 @@ interface LoginFormInputs {
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isVerifyModal, setVerifyModal] = useState(false);
-  const closeModal = () => setVerifyModal(false);
   const [loading, setLoading] = useState(false);
-  const [loginData, setLoginData] = useState<{
-    email: string;
-    password: string;
-  } | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<LoginFormInputs>();
+  } = useForm<RegisterFormInputs>();
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    const toastId = toast.loading("Processing...");
+  const onSubmit = async (data: RegisterFormInputs) => {
+    setLoading(true);
+    const toastId = toast.loading('Creating account...');
+
+    // API-তে পাঠানোর জন্য ডাটা ফরম্যাট করা
     const registerData = {
-      name: data?.name,
-      email: data?.email,
-      password: data?.password,
-      password_confirmation: data?.password,
-    };
-    setLoginData({
+      name: data.name,
       email: data.email,
       password: data.password,
-    });
+    };
+    console.log({ registerData });
 
-    try {
-      const response = await userRegister(registerData);
-      setVerifyModal(false);
-      if (response?.data?.user?.email_verified === false) {
-        toast.success("OTP sent! Please verify.", { id: toastId });
-        reset();
-        setLoading(false);
-        setVerifyModal(true);
-      } else {
-        const errors = response?.data?.errors as Record<string, string[]>;
-        const errorMessages = Object.entries(errors)
-          .map(([key, messages]) => `${key}: ${messages.join(", ")}`)
-          .join("\n");
+    // try {
+    //   const response = await userRegister(registerData);
+    //   // যদি সার্ভার থেকে কোনো ভ্যালিডেশন এরর আসে
+    //   if (response?.data?.errors) {
+    //     const errors = response.data.errors as Record<string, string[]>;
+    //     const errorMessages = Object.entries(errors)
+    //       .map(([key, messages]) => `${key}: ${messages.join(', ')}`)
+    //       .join('\n');
 
-        toast.error(errorMessages, { id: toastId });
-        setLoading(false);
-        setVerifyModal(false);
-        reset();
-      }
-    } catch (err) {
-      console.error("Error:", "Something went wrong");
-      toast.error("Something Went Wrong", { id: toastId });
-      setLoading(false);
-    }
+    //     toast.error(errorMessages, { id: toastId });
+    //   } else {
+    //     toast.error(
+    //       response?.data?.message || 'Registration failed. Please try again.',
+    //       { id: toastId }
+    //     );
+    //   }
+    // } catch (err) {
+    //   console.error('Registration Error:', err);
+    //   toast.error('Something went wrong. Please check your connection.', {
+    //     id: toastId,
+    //   });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4">
-      <VerifyOtpModal
-        isOpen={isVerifyModal}
-        onClose={closeModal}
-        loginData={loginData}
-      />
-
-      <div className="fixed inset-0 -z-10">
-        <video
-          autoPlay
-          loop
-          muted
-          className="w-full h-full object-cover"
-          poster="/placeholder.svg?height=1080&width=1920"
-        >
-          <source src="/BackgroundFile/Auth.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[#f8fafc]">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-4xl grid md:grid-cols-2 rounded-2xl overflow-hidden backdrop-blur bg-white/10"
+        className="w-full max-w-[1050px] grid md:grid-cols-2 rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-200/50 border border-slate-100"
       >
-        {/* Welcome Section */}
-        <div className="hidden md:block  p-12">
-          <div className="h-full flex flex-col items-center justify-center text-white text-center">
-            <h2 className="text-xl font-bold mb-4">
-              Access your account to explore more amazing features.
+        {/* Left Side: Soft Brand Section */}
+        <div className="hidden md:flex bg-[#2596be] p-12 flex-col justify-between text-white relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent" />
+
+          <Link
+            href="/"
+            className="flex items-center gap-2 relative z-10 opacity-90 hover:opacity-100 transition-opacity"
+          >
+            <div className="bg-white/20 backdrop-blur-md p-2 rounded-xl border border-white/30">
+              <GraduationCap size={24} className="text-white" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">TutorFlow</span>
+          </Link>
+
+          <div className="relative z-10">
+            <h2 className="text-3xl font-bold mb-5 tracking-tight leading-[1.2]">
+              Start your journey <br /> with expert mentors.
             </h2>
-            <p className="mb-8 text-white/90">Already have an account ?</p>
+            <div className="space-y-4">
+              {['Personalized Learning', 'Expert Tutors', 'Live Sessions'].map(
+                (item, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 text-white/80 text-sm font-medium"
+                  >
+                    <div className="h-1.5 w-1.5 rounded-full bg-white/50" />
+                    {item}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          <div className="relative z-10 pt-10 border-t border-white/10">
+            <p className="text-xs font-medium text-white/60 mb-4 uppercase tracking-widest">
+              Already a member?
+            </p>
             <Link
               href="/login"
-              className="px-6 py-2 border-2 border-white rounded-full
-                       hover:bg-white hover:text-rose-500 transition-colors"
+              className="text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all"
             >
-              Sign In
+              Login to Account <ArrowRight size={16} />
             </Link>
           </div>
         </div>
-        {/* Login Form */}
-        <div className=" p-8 md:p-12">
-          <div className="w-full max-w-sm mx-auto space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <label className="uppercase text-sm font-medium text-white/80">
-                  Name *
+
+        {/* Right Side: Soft Form Section */}
+        <div className="p-8 md:p-14 bg-white">
+          <div className="w-full max-w-sm mx-auto">
+            <div className="mb-10 text-center md:text-left">
+              <h1 className="text-2xl font-bold text-slate-800 tracking-tight mb-2">
+                Create Account
+              </h1>
+              <p className="text-slate-400 font-medium text-sm italic">
+                Join our community today
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* Name Field */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 ml-1">
+                  Full Name
                 </label>
-                <input
-                  {...register("name", {
-                    required: "Name is required",
-                  })}
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-md
-                           text-white placeholder:text-white/50
-                           focus:outline-none focus:border-white/40"
-                  placeholder="Name"
-                />
-                {errors.name && (
-                  <p className="text-red-400 text-sm">{errors.name.message}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label className="uppercase text-sm font-medium text-white/80">
-                  Email *
-                </label>
-                <input
-                  {...register("email", {
-                    required: "Email is required",
-                  })}
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-md
-                           text-white placeholder:text-white/50
-                           focus:outline-none focus:border-white/40"
-                  placeholder="Email"
-                />
-                {errors.email && (
-                  <p className="text-red-400 text-sm">{errors.email.message}</p>
-                )}
+                <div className="relative group">
+                  <input
+                    {...register('name', { required: 'Name is required' })}
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-primary/50 focus:bg-white transition-all text-sm font-medium"
+                    placeholder="Enter your name"
+                  />
+                  <User
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="uppercase text-sm font-medium text-white/80">
-                  Password *
+              {/* Email Field */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 ml-1">
+                  Email Address
                 </label>
-                <div className="relative">
+                <div className="relative group">
                   <input
-                    {...register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 8,
-                        message: "Password must be at least 8 characters long",
-                      },
+                    {...register('email', { required: 'Email is required' })}
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-primary/50 focus:bg-white transition-all text-sm font-medium"
+                    placeholder="mail@example.com"
+                  />
+                  <Mail
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors"
+                  />
+                </div>
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 ml-1">
+                  Password
+                </label>
+                <div className="relative group">
+                  <input
+                    {...register('password', {
+                      required: 'Password is required',
                     })}
-                    type={showPassword ? "text" : "password"}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-md
-                     text-white placeholder:text-white/50
-                     focus:outline-none focus:border-white/40"
-                    placeholder="Password"
+                    type={showPassword ? 'text' : 'password'}
+                    className="w-full pl-11 pr-11 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-primary/50 focus:bg-white transition-all text-sm font-medium"
+                    placeholder="••••••••"
+                  />
+                  <Lock
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-white/50 hover:text-white"
-                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                {errors.password && (
-                  <p className="text-red-400 text-sm">
-                    {errors.password.message}
-                  </p>
-                )}
               </div>
 
               <button
                 disabled={loading}
-                type="submit"
-                className="w-full py-2 px-4 bg-[#c48200] text-white rounded-md
-                          transition-colors
-                         focus:outline-none focus:bg-none focus:none focus:ring-offset-2"
+                className="w-full py-4 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-primary/10 active:scale-[0.99] disabled:opacity-50 mt-2"
               >
-                {loading ? "Loading..." : "Sign In"}
+                {loading ? 'Creating Account...' : 'Create Free Account'}
               </button>
-              <div className="relative flex items-center justify-center">
-                <span className="absolute bg-white/20 w-full h-px" />
-                <span className="bg-transparent px-4 text-white">or</span>
-              </div>
             </form>
 
-            <>
-              {/* Google Sign-In Button */}
-              <button
-                type="button"
-                className="w-full flex items-center justify-center py-2 px-4 bg-white/10 border border-white/20 text-white rounded-md"
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/128/300/300221.png"
-                  alt="Google"
-                  className="w-5 h-5 mr-2"
-                />
-                Sign In with Google
-              </button>
-            </>
+            <div className="mt-8 text-center">
+              <p className="text-[11px] font-medium text-slate-400">
+                By clicking, you agree to our{' '}
+                <span className="underline cursor-pointer">
+                  Terms of Service
+                </span>
+                .
+              </p>
+            </div>
           </div>
         </div>
       </motion.div>

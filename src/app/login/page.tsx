@@ -4,7 +4,14 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Eye, EyeOff, GraduationCap, ArrowRight } from 'lucide-react';
+import {
+  Eye,
+  EyeOff,
+  GraduationCap,
+  ArrowRight,
+  Mail,
+  Lock,
+} from 'lucide-react';
 import { userLogin } from '@/components/Authentication/userLogin';
 import { toast } from 'sonner';
 import { setToken, setUserInfo } from '@/components/Redux/Slice/authSlice';
@@ -19,7 +26,6 @@ interface LoginFormInputs {
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -33,7 +39,6 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
     const toastId = toast.loading('Logging in...');
-
     try {
       const res = await userLogin(data);
       if (res?.data?.token) {
@@ -49,7 +54,6 @@ const LoginPage = () => {
         );
         reset();
         toast.success('Login Successful', { id: toastId, duration: 2000 });
-
         const redirectRoute = sessionStorage.getItem('redirect_to');
         router.push(redirectRoute ? JSON.parse(redirectRoute) : '/dashboard');
       } else {
@@ -65,128 +69,144 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-secondary/50">
+    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[#F9FBFC]">
+      {' '}
+      {/* Very soft off-white bg */}
+      {/* Background Decor - Muted Glows */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]" />
       </div>
-      {/* Left side */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-[1000px] grid md:grid-cols-2 rounded-[1.5rem] overflow-hidden bg-white shadow-2xl shadow-primary/10 border border-primary/5"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-[950px] grid md:grid-cols-2 rounded-[2rem] overflow-hidden bg-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-100"
       >
-        <div className="hidden md:flex bg-primary p-12 flex-col justify-between text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+        {/* Left Side: Muted Primary Section */}
+        <div className="hidden md:flex bg-[#2596be] p-12 flex-col justify-between text-white/90 relative">
+          {/* Subtle Texture Overlay */}
+          <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')]" />
 
-          <Link href="/" className="flex items-center gap-2 relative z-10">
-            <div className="bg-white p-2 rounded-xl text-primary">
-              <GraduationCap size={28} />
+          <Link
+            href="/"
+            className="flex items-center gap-2 relative z-10 opacity-80 hover:opacity-100 transition-all"
+          >
+            <div className="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/20">
+              <GraduationCap size={24} />
             </div>
-            <span className="text-2xl font-black tracking-tighter">
-              TutorFlow
-            </span>
+            <span className="text-xl font-bold tracking-tight">TutorFlow</span>
           </Link>
 
           <div className="relative z-10">
-            <h2 className="text-4xl font-black mb-6 leading-tight tracking-tighter">
-              Welcome Back to <br /> Your Learning Hub.
+            <h2 className="text-3xl font-bold mb-4 leading-snug tracking-tight">
+              Master new skills <br /> with every session.
             </h2>
-            <p className="text-white/80 font-medium text-lg mb-8">
-              Log in to continue your journey with the world's best mentors.
+            <p className="text-white/70 font-medium text-base">
+              Join thousands of students learning from world-class experts.
             </p>
           </div>
 
-          <div className="relative z-10">
-            <p className="mb-4 text-sm font-bold opacity-70 italic">
-              New here?
+          <div className="relative z-10 border-t border-white/10 pt-8">
+            <p className="mb-3 text-xs font-semibold text-white/50 uppercase tracking-widest">
+              Need an account?
             </p>
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary rounded-xl font-black hover:bg-secondary transition-all shadow-lg"
+              className="inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all"
             >
-              Create Account <ArrowRight size={20} />
+              Get Started for Free <ArrowRight size={16} />
             </Link>
           </div>
         </div>
 
-        {/* Right Side*/}
-        <div className="p-8 md:p-16 bg-white">
+        {/* Right Side: Low-Contrast Form */}
+        <div className="p-10 md:p-14 bg-white">
           <div className="w-full max-w-sm mx-auto">
             <div className="mb-10">
-              <h1 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">
+              <h1 className="text-2xl font-bold text-slate-700 tracking-tight mb-2">
                 Sign In
               </h1>
-              <p className="text-slate-500 font-bold text-sm">
-                Enter your details to access your dashboard.
+              <p className="text-slate-400 font-medium text-sm">
+                Welcome back! Please enter your details.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div className="space-y-2">
-                <label className="text-xs font-black uppercase tracking-widest text-slate-400">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* Email Input */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 ml-1">
                   Email Address
                 </label>
-                <input
-                  {...register('email', { required: 'Email is required' })}
-                  className="w-full px-5 py-4 bg-secondary/50 border border-primary/10 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:bg-white transition-all font-semibold"
-                  placeholder="name@example.com"
-                />
+                <div className="relative group">
+                  <input
+                    {...register('email', { required: 'Email is required' })}
+                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 placeholder:text-slate-400 focus:outline-none focus:border-primary/40 focus:bg-white transition-all text-sm font-medium"
+                    placeholder="name@example.com"
+                  />
+                  <Mail
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary transition-colors"
+                  />
+                </div>
                 {errors.email && (
-                  <p className="text-red-500 text-xs font-bold mt-1">
+                  <p className="text-red-400 text-[10px] font-medium mt-1">
                     {errors.email.message}
                   </p>
                 )}
               </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-xs font-black uppercase tracking-widest text-slate-400">
+              {/* Password Input */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center px-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                     Password
                   </label>
-                  <button
-                    type="button"
-                    className="text-xs font-black text-primary hover:underline"
+                  <Link
+                    href="/forgot"
+                    className="text-[11px] font-bold text-primary/70 hover:text-primary"
                   >
                     Forgot?
-                  </button>
+                  </Link>
                 </div>
-                <div className="relative">
+                <div className="relative group">
                   <input
                     {...register('password', {
                       required: 'Password is required',
-                      minLength: {
-                        value: 8,
-                        message: 'Min 8 characters required',
-                      },
+                      minLength: 8,
                     })}
                     type={showPassword ? 'text' : 'password'}
-                    className="w-full px-5 py-4 bg-secondary/50 border border-primary/10 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:bg-white transition-all font-semibold"
+                    className="w-full pl-11 pr-11 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 placeholder:text-slate-400 focus:outline-none focus:border-primary/40 focus:bg-white transition-all text-sm font-medium"
                     placeholder="••••••••"
+                  />
+                  <Lock
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary transition-colors"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-4 flex items-center text-slate-400 hover:text-primary"
-                    onClick={() => setShowPassword(prev => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                {errors.password && (
-                  <p className="text-red-500 text-xs font-bold mt-1">
-                    {errors.password.message}
-                  </p>
-                )}
               </div>
 
               <button
                 disabled={loading}
                 type="submit"
-                className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-black transition-all shadow-lg shadow-primary/20 active:scale-[0.98] disabled:opacity-70"
+                className="w-full py-3.5 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-primary/10 active:scale-[0.99] disabled:opacity-60 mt-2"
               >
-                {loading ? 'Authenticating...' : 'Sign In to Account'}
+                {loading ? 'Connecting...' : 'Sign In'}
               </button>
             </form>
+
+            <p className="mt-8 text-center text-xs font-medium text-slate-400 md:hidden">
+              New here?{' '}
+              <Link href="/register" className="text-primary font-bold">
+                Create Account
+              </Link>
+            </p>
           </div>
         </div>
       </motion.div>
