@@ -1,12 +1,14 @@
 import { Route } from '@/type';
+import { User } from 'lucide-react';
 
 export const adminRoutes: Route[] = [
   {
     title: 'User Management',
     items: [
       {
-        title: 'Analytics',
-        url: '/tutor-dashboard/analytics',
+        title: 'Analytic',
+        url: '/admin-dashboard/analytics',
+        icon: User,
       },
     ],
   },

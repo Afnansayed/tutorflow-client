@@ -1,11 +1,9 @@
-import * as React from 'react';
-
+'use client';
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -13,55 +11,96 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Roles } from '@/constants/roles';
 import { adminRoutes } from '@/routes/adminRoutes';
 import { studentRoutes } from '@/routes/studentRoutes';
-import { Roles } from '@/constants/roles';
-import { Route } from '@/type';
 import { tutorRoutes } from '@/routes/tutorRoutes';
+import { GraduationCap } from 'lucide-react';
+import { Route } from '@/type';
 
-export function AppSidebar({
-  user,
-  ...props
-}: {
-  user: { role: string } & React.ComponentProps<typeof Sidebar>;
-}) {
-  let routes: Route[] = [];
+export function AppSidebar({ user, ...props }: any) {
+  const pathname = usePathname();
 
-  switch (user.role) {
-    case Roles.admin:
-      routes = adminRoutes;
-      break;
-    case Roles.student:
-      routes = studentRoutes;
-      break;
-    case Roles.tutor:
-      routes = tutorRoutes;
-      break;
-    default:
-      routes = [];
-      break;
-  }
+  const routesMap: Record<string, Route[]> = {
+    [Roles.admin]: adminRoutes,
+    [Roles.student]: studentRoutes,
+    [Roles.tutor]: tutorRoutes,
+  };
+
+  const activeRoutes = routesMap[user.role] || [];
 
   return (
-    <Sidebar {...props}>
-      <SidebarContent>
-        {routes.map(item => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+    <Sidebar collapsible="icon" className="border-r border-border" {...props}>
+      {/* Sidebar Header: Logo Section */}
+      <SidebarHeader className="py-4">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              size="lg"
+              asChild
+              className="hover:bg-transparent focus:bg-transparent"
+            >
+              <Link href="/" className="flex items-center gap-3">
+                <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
+                  <GraduationCap className="size-6" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
+                  <span className="font-bold text-lg tracking-tight">
+                    TutorFlow
+                  </span>
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                    Platform v1.0
+                  </span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+
+      <SidebarContent className="gap-0 py-2">
+        {activeRoutes.map((group, index) => (
+          <SidebarGroup key={group.title + index} className="py-0">
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map(item => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>{item.title}</Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {group.items.map(item => {
+                  const isActive = pathname === item.url;
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        asChild
+                        tooltip={item.title}
+                        isActive={isActive}
+                        className={`
+                          relative flex h-11 items-center gap-3 px-3 transition-all duration-200
+                          ${
+                            isActive
+                              ? 'bg-primary/10 text-primary font-semibold before:absolute before:left-0 before:top-1/4 before:h-1/2 before:w-1 before:rounded-r-full before:bg-primary'
+                              : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                          }
+                        `}
+                      >
+                        <Link href={item.url}>
+                          {item.icon && (
+                            <item.icon
+                              className={`size-5 shrink-0 transition-transform ${isActive ? 'scale-110' : 'opacity-70'}`}
+                            />
+                          )}
+                          <span className="truncate group-data-[collapsible=icon]:hidden">
+                            {item.title}
+                          </span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
       </SidebarContent>
+
       <SidebarRail />
     </Sidebar>
   );
