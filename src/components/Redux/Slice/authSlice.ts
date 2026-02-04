@@ -5,6 +5,7 @@ type TUserInfo = {
   email: string;
   name: string;
   email_verified: boolean;
+  role: string;
 };
 
 type TAuthState = {

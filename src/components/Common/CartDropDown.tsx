@@ -3,37 +3,18 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  User,
-  ShoppingBag,
-  Star,
-  Gift,
-  HelpCircle,
-  LogOut,
-} from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { logoutUser } from '../Authentication/logoutUser';
+import { User, HelpCircle, LogOut, BookIcon } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { logOut, useCurrentUserInfo } from '../Redux/Slice/authSlice';
 import { useAppSelector } from '../Redux/hooks';
+import { Roles } from '@/constants/roles';
 
-interface UserDropdownProps {
-  userName?: string;
-  isLoggedIn?: boolean;
-}
-
-export default function UserDropdown({
-  userName,
-  isLoggedIn = true,
-}: UserDropdownProps) {
+export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const user = {
-    role: 'CUSTOMER',
-  };
+  const user = useAppSelector(useCurrentUserInfo);
 
-  // console.log(user);
-
+  const isLoggedIn = user ? true : false;
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -55,12 +36,9 @@ export default function UserDropdown({
     setIsOpen(!isOpen);
   };
 
-  const router = useRouter();
   const dispatch = useDispatch();
   const handleSignOut = () => {
-    logoutUser(router); // Default redirects to home ("/")
     dispatch(logOut());
-    // console.log("Signing out...");
     setIsOpen(false);
   };
 
@@ -68,12 +46,12 @@ export default function UserDropdown({
     if (!user) return '/';
 
     switch (user?.role) {
-      case 'CUSTOMER':
-        return '/customer/account';
-      case 'BULK_BUYER':
-        return '/customer/account';
-      case 'ADMIN':
+      case Roles.student:
         return '/dashboard';
+      case Roles.tutor:
+        return '/tutor-dashboard';
+      case Roles.admin:
+        return '/admin-dashboard';
       default:
         return '/';
     }
@@ -89,11 +67,11 @@ export default function UserDropdown({
         <Image src={'/icon/i.svg'} alt="user icon" width={24} height={24} />
         <button
           className="text-Black hover:text-primary transition-colors"
-          title={isLoggedIn ? userName : ''} // Full name on hover
+          title={isLoggedIn ? user?.name : ''} // Full name on hover
         >
           {isLoggedIn
-            ? `${userName?.substring(0, 8)}${
-                userName?.length && userName?.length > 8 ? '...' : ''
+            ? `${user?.name?.substring(0, 8)}${
+                user?.name?.length && user?.name?.length > 8 ? '...' : ''
               }`
             : 'Sign in'}
         </button>
@@ -106,10 +84,12 @@ export default function UserDropdown({
             <>
               {/* Header */}
               <div className="px-4 py-3 border-b border-stroke_1">
-                <h3 className="font-medium text-Black">Welcome, {userName}!</h3>
+                <h3 className="font-medium text-Black">
+                  Welcome, {user?.name}!
+                </h3>
               </div>
               {/* Menu Items */}
-              {(user?.role === 'CUSTOMER' || user?.role === 'BULK_BUYER') && (
+              {user?.role === Roles.student && (
                 <div className="py-2">
                   <Link
                     href={handleGoProfile()}
@@ -125,8 +105,8 @@ export default function UserDropdown({
                     className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <ShoppingBag className="w-5 h-5" />
-                    <span className="font-medium">My Orders</span>
+                    <BookIcon className="w-5 h-5" />
+                    <span className="font-medium">My Bookings</span>
                   </Link>
 
                   <Link
@@ -137,17 +117,23 @@ export default function UserDropdown({
                     <HelpCircle className="w-5 h-5" />
                     <span>Contact Us</span>
                   </Link>
-
-                  {/* <button
-                    onClick={handleSignOut}
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors w-full text-left"
-                  >
-                    <LogOut className="w-5 h-5" />
-                    <span>Sign Out</span>
-                  </button> */}
                 </div>
               )}
-              {user?.role === 'ADMIN' && (
+
+              {user?.role === Roles.admin && (
+                <div className="py-2">
+                  <Link
+                    href={handleGoProfile()}
+                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <User className="w-5 h-5" />
+                    <span>Dashboard</span>
+                  </Link>
+                </div>
+              )}
+
+              {user?.role === Roles.tutor && (
                 <div className="py-2">
                   <Link
                     href={handleGoProfile()}

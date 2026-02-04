@@ -54,6 +54,7 @@ const LoginPage = () => {
               email: user.email,
               name: user.name,
               email_verified: user.emailVerified,
+              role: (user as any).role as string,
             })
           );
           reset();

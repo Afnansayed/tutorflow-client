@@ -139,7 +139,7 @@ export default function Header() {
 
           {/* RIGHT SIDE ACTIONS */}
           <div className="flex items-center gap-2 md:gap-4">
-            <UserDropdown isLoggedIn={false} />
+            <UserDropdown />
 
             <Button className="bg-primary hover:bg-primary/90 text-white px-4 md:px-6 h-10 md:h-11 rounded-full font-bold shadow-lg shadow-primary/20 flex items-center gap-2 group text-sm md:text-base">
               Join <span className="hidden sm:inline">Free</span>
