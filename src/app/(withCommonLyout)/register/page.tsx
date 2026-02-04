@@ -75,7 +75,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[#f8fafc]">
+    <div className="w-full flex items-center justify-center px-4 py-16 bg-[#f8fafc]">
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}

@@ -12,7 +12,6 @@ import {
   Mail,
   Lock,
 } from 'lucide-react';
-import { userLogin } from '@/components/Authentication/userLogin';
 import { toast } from 'sonner';
 import { setToken, setUserInfo } from '@/components/Redux/Slice/authSlice';
 import { useAppDispatch } from '@/components/Redux/hooks';
@@ -48,6 +47,7 @@ const LoginPage = () => {
       if (data) {
         if (data?.token) {
           const { user, token } = data;
+
           dispatch(setToken({ accessToken: token }));
           dispatch(
             setUserInfo({
@@ -77,7 +77,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[#F9FBFC]">
+    <div className=" w-full flex items-center justify-center py-16 px-4 bg-[#F9FBFC]">
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]" />
