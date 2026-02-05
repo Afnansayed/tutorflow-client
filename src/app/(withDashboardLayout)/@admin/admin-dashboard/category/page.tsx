@@ -11,6 +11,7 @@ import {
   Hash,
   Image as ImageIcon,
 } from 'lucide-react';
+import Link from 'next/link';
 
 const CategoryPage = () => {
   const { data: categoryResponse, isLoading } =
@@ -31,10 +32,12 @@ const CategoryPage = () => {
           </div>
 
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <button className="flex items-center gap-2 px-5 py-2.5 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95">
-              <Plus size={18} />
-              <span className="hidden sm:inline">Add New</span>
-            </button>
+            <Link href={'/admin-dashboard/category/create-new'}>
+              <button className="flex items-center gap-2 px-5 py-2.5 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95">
+                <Plus size={18} />
+                <span className="hidden sm:inline">Add New</span>
+              </button>
+            </Link>
           </div>
         </div>
 
