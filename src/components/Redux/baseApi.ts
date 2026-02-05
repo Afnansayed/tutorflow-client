@@ -4,10 +4,10 @@ import {
   FetchArgs,
   fetchBaseQuery,
   FetchBaseQueryError,
-} from "@reduxjs/toolkit/query/react";
-import { RootState } from "./store";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { tagTypes } from "@/constants/tagTypes";
+} from '@reduxjs/toolkit/query/react';
+import { RootState } from './store';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { tagTypes } from '@/constants/tagTypes';
 
 interface ErrorResponse {
   error?: {
@@ -17,12 +17,12 @@ interface ErrorResponse {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
-  credentials: "include",
+  baseUrl: process.env.NEXT_PUBLIC_API_BASE_API,
+  credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
-      headers.set("authorization", `Bearer${token}`);
+      headers.set('authorization', `Bearer${token}`);
     }
     return headers;
   },
@@ -36,14 +36,14 @@ const baseQueryWithUnauthorizedHandler: BaseQueryFn<
   const result = await baseQuery(args, api, extraOptions);
   if ((result?.data as ErrorResponse)?.error?.code === 401) {
     const router: AppRouterInstance = (api.extra as any)?.router;
-    console.log("Router", router);
-    console.log("Unauthorized Check", result);
+    console.log('Router', router);
+    console.log('Unauthorized Check', result);
   }
   return result;
 };
 
 export const baseApi = createApi({
-  reducerPath: "baseApi",
+  reducerPath: 'baseApi',
   baseQuery: baseQueryWithUnauthorizedHandler,
   tagTypes: tagTypes,
   endpoints: () => ({}),
