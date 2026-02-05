@@ -5,44 +5,55 @@ import { Roles } from './constants/roles';
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  let isAuthenticated = false;
-  let isAdmin = false;
-  let isTutor = false;
+  const { data } = await userService.getSession();
+  const user = data?.user;
 
-  const { data, error } = await userService.getSession();
-
-  console.log({ data, error });
-
-  if (data) {
-    isAuthenticated = true;
-    isAdmin = data.user.role === Roles.admin;
-    isTutor = data.user.role === Roles.tutor;
-  }
-
-  //* User in not authenticated at all
-  if (!isAuthenticated) {
+  if (!user) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  //* User is authenticated and role = ADMIN
-  //* User can not visit user dashboard
-  if (isAdmin && pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/admin-dashboard', request.url));
+  const userRole = user.role;
+
+  // for admin redirect
+  if (userRole === Roles.admin) {
+    if (
+      pathname.startsWith('/dashboard') ||
+      pathname.startsWith('/tutor-dashboard')
+    ) {
+      return NextResponse.redirect(new URL('/admin-dashboard', request.url));
+    }
   }
 
-  if (isTutor && pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/tutor-dashboard', request.url));
+  //for tutor redirect
+  if (userRole === Roles.tutor) {
+    if (
+      pathname.startsWith('/dashboard') ||
+      pathname.startsWith('/admin-dashboard')
+    ) {
+      return NextResponse.redirect(new URL('/tutor-dashboard', request.url));
+    }
   }
 
-  //* User is authenticated and role = USER
-  //* User can not visit admin-dashboard
-  if (!isAdmin && pathname.startsWith('/admin-dashboard')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+  // for student redirect
+  if (userRole === Roles.student) {
+    if (
+      pathname.startsWith('/tutor-dashboard') ||
+      pathname.startsWith('/admin-dashboard')
+    ) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard', '/dashboard/:path*'],
+  matcher: [
+    '/dashboard',
+    '/dashboard/:path*',
+    '/admin-dashboard',
+    '/admin-dashboard/:path*',
+    '/tutor-dashboard',
+    '/tutor-dashboard/:path*',
+  ],
 };

@@ -1,7 +1,11 @@
 import { redirect } from 'next/navigation';
 
 const TutorDashboard = () => {
-  return redirect('/tutor-dashboard/analytics');
+  return (
+    <>
+      <h1>Tutor dashboard</h1>
+    </>
+  );
 };
 
 export default TutorDashboard;

@@ -8,6 +8,9 @@ import { useDispatch } from 'react-redux';
 import { logOut, useCurrentUserInfo } from '../Redux/Slice/authSlice';
 import { useAppSelector } from '../Redux/hooks';
 import { Roles } from '@/constants/roles';
+import { toast } from 'sonner';
+import { authClient } from '@/lib/auth-client';
+import { redirect, useRouter } from 'next/navigation';
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,9 +40,23 @@ export default function UserDropdown() {
   };
 
   const dispatch = useDispatch();
-  const handleSignOut = () => {
-    dispatch(logOut());
-    setIsOpen(false);
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            dispatch(logOut());
+            setIsOpen(false);
+            toast.success('Logout successfully');
+            router.push('/login');
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleGoProfile = (): string => {

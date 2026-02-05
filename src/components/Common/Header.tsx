@@ -28,7 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import UserDropdown from './CartDropDown';
+import UserDropdown from './UserDropDown';
 
 type NavSubItem = { path: string; label: string };
 type NavLink =

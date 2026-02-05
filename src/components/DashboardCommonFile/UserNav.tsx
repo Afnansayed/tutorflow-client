@@ -11,9 +11,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, Settings, CreditCard } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
+import { LogOut, User, Settings } from 'lucide-react';
+import { useAppDispatch } from '../Redux/hooks';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { logOut } from '../Redux/Slice/authSlice';
 
 export function UserNav({ user }: { user: any }) {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const handleSignOut = async () => {
+    try {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            dispatch(logOut());
+            toast.success('Logout successfully');
+            router.push('/login');
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -47,16 +69,15 @@ export function UserNav({ user }: { user: any }) {
             <span>Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-600 cursor-pointer focus:bg-red-50 focus:text-red-600">
+        <DropdownMenuItem
+          onClick={handleSignOut}
+          className="text-red-600 cursor-pointer focus:bg-red-50 focus:text-red-600"
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
