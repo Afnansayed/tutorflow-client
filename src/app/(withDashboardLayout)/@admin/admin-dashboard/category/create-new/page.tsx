@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Upload, X, Loader2, PlusCircle, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { imageUpload } from '@/lib/imageUpload';
+import { useCreateCategoryMutation } from '@/components/Redux/RTK/categoryApi';
 
 interface CategoryFormInputs {
   name: string;
@@ -14,6 +16,7 @@ interface CategoryFormInputs {
 const CreateCategoryForm = () => {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
+  const [createCategory] = useCreateCategoryMutation();
 
   const {
     register,
@@ -23,9 +26,6 @@ const CreateCategoryForm = () => {
     formState: { errors },
   } = useForm<CategoryFormInputs>();
 
-  // ইমেজ প্রিভিউ দেখার জন্য
-  const thumbnailFile = watch('thumbnail');
-
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -33,46 +33,22 @@ const CreateCategoryForm = () => {
     }
   };
 
-  const uploadToImgBB = async (file: File) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
-    const response = await fetch(
-      `https://api.imgbb.com/1/upload?key=${apiKey}`,
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-    if (data.success) {
-      return data.data.url;
-    } else {
-      throw new Error('Image upload failed');
-    }
-  };
-
   const onSubmit = async (data: CategoryFormInputs) => {
     setLoading(true);
-    const toastId = toast.loading('Hosting image and creating category...');
+    const toastId = toast.loading('Creating category...');
 
     try {
-      // ১. প্রথমে ইমেজ হোস্ট করা
-      const imageUrl = await uploadToImgBB(data.thumbnail[0]);
-
-      // ২. ফাইনাল অবজেক্ট তৈরি করা
-      const finalData = {
+      const imageUrl = await imageUpload(data.thumbnail[0]);
+      const payload = {
         name: data.name,
         sub_code: data.sub_code,
         thumbnail: imageUrl,
       };
 
-      console.log('Final Submission Data:', finalData);
+      console.log('Final Submission Data:', payload);
 
-      // ৩. আপনার API কল এখানে করুন (e.g., useCreateCategoryMutation)
-      // await createCategory(finalData).unwrap();
+      const res = await createCategory(payload).unwrap();
+      //here rest of the logic
 
       toast.success('Category created successfully!', { id: toastId });
       reset();
@@ -85,7 +61,7 @@ const CreateCategoryForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-[2rem] border border-slate-100 shadow-sm p-8 md:p-12">
+    <div className="max-w-2xl mx-auto bg-white rounded-[1rem] border border-slate-100 shadow-sm p-8 md:p-12">
       <div className="mb-10 text-center">
         <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
           Add New Category
@@ -96,7 +72,7 @@ const CreateCategoryForm = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Name Field */}
+        {/* Name  */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">
             Category Name
@@ -113,7 +89,7 @@ const CreateCategoryForm = () => {
           )}
         </div>
 
-        {/* Sub Code Field */}
+        {/* Sub Code  */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">
             Subject Code
@@ -130,7 +106,7 @@ const CreateCategoryForm = () => {
           )}
         </div>
 
-        {/* Thumbnail Upload Field */}
+        {/* Thumbnail Upload  */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">
             Thumbnail Image
@@ -138,7 +114,7 @@ const CreateCategoryForm = () => {
 
           <div className="relative group">
             {!preview ? (
-              <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-200 rounded-[2rem] cursor-pointer bg-slate-50 hover:bg-slate-100/50 hover:border-primary/30 transition-all">
+              <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-200 rounded-[1rem] cursor-pointer bg-slate-50 hover:bg-slate-100/50 hover:border-primary/30 transition-all">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <Upload className="w-8 h-8 text-slate-300 mb-3" />
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-tight">
@@ -156,7 +132,7 @@ const CreateCategoryForm = () => {
                 />
               </label>
             ) : (
-              <div className="relative w-full h-48 rounded-[2rem] overflow-hidden border border-slate-200">
+              <div className="relative w-full h-48 rounded-[1rem] overflow-hidden border border-slate-200">
                 <img
                   src={preview}
                   alt="Preview"
