@@ -127,7 +127,7 @@ const TutorAccountPage = () => {
                   <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
                     <Award size={24} />
                   </div>
-                  <Link href="/dashboard/tutor/edit-profile">
+                  <Link href={`/tutor-dashboard/account/${profileData?.id}`}>
                     <button className="flex items-center gap-2 px-5 py-2.5 hover:bg-slate-900 text-white rounded-xl text-xs font-bold bg-primary transition-all shadow-lg shadow-slate-200">
                       <Edit3 size={14} /> Edit Profile
                     </button>
