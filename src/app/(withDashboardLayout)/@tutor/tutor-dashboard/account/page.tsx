@@ -190,7 +190,7 @@ const TutorAccountPage = () => {
                 brand in minutes.
               </p>
 
-              <Link href="/dashboard/tutor/create-profile">
+              <Link href="/tutor-dashboard/account/new">
                 <button className="group relative px-10 py-5 bg-primary text-white rounded-[2rem] font-black text-sm uppercase tracking-widest overflow-hidden transition-all hover:pr-14 active:scale-95 shadow-xl shadow-primary/20">
                   <span className="relative z-10 flex items-center gap-2">
                     Create Profile{' '}

@@ -51,7 +51,7 @@ export default async function DashboardLayout({
         </header>
 
         {/* Content Area */}
-        <main className="flex flex-1 flex-col gap-4 p-6 bg-slate-50/50 dark:bg-transparent">
+        <main className="flex flex-1 flex-col gap-4 p-6 bg-gray-100 dark:bg-transparent">
           {content}
         </main>
       </SidebarInset>
