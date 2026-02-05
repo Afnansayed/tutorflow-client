@@ -13,9 +13,9 @@ const categoryApi = baseApi.injectEndpoints({
       invalidatesTags: ['category'],
     }),
     updateCategory: builder.mutation({
-      query: (data: any) => {
+      query: ({ id, data }: { id: string; data: any }) => {
         return {
-          url: '/category',
+          url: `/category/${id}`,
           method: 'PATCH',
           body: data,
         };

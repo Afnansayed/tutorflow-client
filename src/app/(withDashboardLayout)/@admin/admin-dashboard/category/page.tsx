@@ -116,12 +116,13 @@ const CategoryPage = () => {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button className="p-2 hover:bg-blue-50 text-slate-400 hover:text-primary transition-all rounded-lg">
-                            <Edit3 size={16} />
-                          </button>
-                          <button className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all rounded-lg">
-                            <Trash2 size={16} />
-                          </button>
+                          <Link
+                            href={`/admin-dashboard/category/${category.id}`}
+                          >
+                            <button className="p-2 hover:bg-blue-50 text-slate-400 hover:text-primary transition-all rounded-lg">
+                              <Edit3 size={16} />
+                            </button>
+                          </Link>
                         </div>
                       </td>
                     </tr>

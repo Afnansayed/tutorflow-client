@@ -22,7 +22,6 @@ const CreateCategoryForm = () => {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm<CategoryFormInputs>();
 
