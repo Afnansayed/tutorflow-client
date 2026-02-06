@@ -1,1 +1,1 @@
-export const tagTypes = ['category', 'tutor'] as const;
+export const tagTypes = ['category', 'tutor', 'bookings'] as const;

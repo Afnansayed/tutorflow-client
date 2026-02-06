@@ -10,6 +10,11 @@ export const tutorRoutes: Route[] = [
         url: '/tutor-dashboard/account',
         icon: User,
       },
+      {
+        title: 'Bookings',
+        url: '/tutor-dashboard/bookings',
+        icon: User,
+      },
     ],
   },
 ];
