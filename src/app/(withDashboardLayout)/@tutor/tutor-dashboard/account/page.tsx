@@ -37,10 +37,7 @@ const TutorAccountPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-10 relative overflow-hidden">
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
-
+    <div className="min-h-screen py-6 relative overflow-hidden">
       <div className="max-w-5xl mx-auto relative z-10">
         {profileData ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
