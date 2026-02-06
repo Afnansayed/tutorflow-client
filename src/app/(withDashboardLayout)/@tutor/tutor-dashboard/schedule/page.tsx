@@ -14,6 +14,8 @@ import {
   XCircle,
 } from 'lucide-react';
 import Link from 'next/link';
+import CreateScheduleModal from './_components/CreateScheduleModal';
+import UpdateScheduleModal from './_components/UpdateSchedule';
 
 const ScheduleManagement = () => {
   const { data: scheduleResponse, isLoading } =
@@ -22,8 +24,8 @@ const ScheduleManagement = () => {
 
   return (
     <div className="py-6  min-h-screen">
+      {/* header */}
       <div className="max-w-7xl mx-auto">
-        {/* Header Section - Same as Category */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 px-2">
           <div>
             <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
@@ -34,17 +36,10 @@ const ScheduleManagement = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <Link href={'/dashboard/tutor/schedule/create'}>
-              <button className="flex items-center gap-2 px-5 py-2.5 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95 w-full md:w-auto">
-                <Plus size={18} />
-                <span>Add New Slot</span>
-              </button>
-            </Link>
-          </div>
+          <CreateScheduleModal />
         </div>
 
-        {/* Table Section - Exact Category Style */}
+        {/* Table start */}
         <motion.div
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
@@ -88,7 +83,7 @@ const ScheduleManagement = () => {
                       key={item.id}
                       className="hover:bg-slate-50/50 transition-colors group"
                     >
-                      {/* Day Column */}
+                      {/* Day  */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2.5">
                           <div className="p-2 bg-slate-50 rounded-lg text-slate-400 group-hover:bg-white transition-colors">
@@ -116,7 +111,7 @@ const ScheduleManagement = () => {
                         </div>
                       </td>
 
-                      {/* Availability Badge */}
+                      {/* Availability  status*/}
                       <td className="px-6 py-4">
                         {item.isAvailable ? (
                           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 text-[11px] font-bold uppercase tracking-wider border border-emerald-100">
@@ -124,23 +119,17 @@ const ScheduleManagement = () => {
                             Available
                           </div>
                         ) : (
-                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 text-slate-400 text-[11px] font-bold uppercase tracking-wider border border-slate-100">
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-50 text-red-600  text-[11px] font-bold uppercase tracking-wider border border-slate-100">
                             <XCircle size={12} />
                             Booked
                           </div>
                         )}
                       </td>
 
-                      {/* Actions - Same as Category */}
+                      {/* Actions */}
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <Link
-                            href={`/dashboard/tutor/schedule/edit/${item.id}`}
-                          >
-                            <button className="p-2 hover:bg-blue-50 text-slate-400 hover:text-[#2596be] transition-all rounded-lg">
-                              <Edit3 size={16} />
-                            </button>
-                          </Link>
+                          <UpdateScheduleModal schedule_id={item.id} />
                           <button className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all rounded-lg">
                             <Trash2 size={16} />
                           </button>
