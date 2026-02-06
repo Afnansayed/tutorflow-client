@@ -31,6 +31,15 @@ const bookingsApi = baseApi.injectEndpoints({
       },
       providesTags: ['bookings'],
     }),
+    getTutorBookingById: builder.query({
+      query: id => {
+        return {
+          url: `/booking/${id}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['bookings'],
+    }),
     getStudentBookings: builder.query({
       query: () => {
         return {
@@ -58,4 +67,5 @@ export const {
   useGetTutorBookingsQuery,
   useGetStudentBookingsQuery,
   useUpdatedBookingStatusMutation,
+  useGetTutorBookingByIdQuery,
 } = bookingsApi;

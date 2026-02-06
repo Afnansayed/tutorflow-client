@@ -17,6 +17,7 @@ import {
   MoreHorizontal,
   Eye,
 } from 'lucide-react';
+import Link from 'next/link';
 
 const TutorBookingPage = () => {
   const { data: bookingResponse, isLoading } =
@@ -182,9 +183,11 @@ const TutorBookingPage = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <Button className="py-1 rounded-xl">
-                          <Eye /> View
-                        </Button>
+                        <Link href={`/tutor-dashboard/bookings/${booking?.id}`}>
+                          <Button className="py-1 rounded-xl">
+                            <Eye /> View
+                          </Button>
+                        </Link>
                       </td>
                     </tr>
                   ))
