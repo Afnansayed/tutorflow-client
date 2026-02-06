@@ -16,6 +16,7 @@ import {
 import Link from 'next/link';
 import CreateScheduleModal from './_components/CreateScheduleModal';
 import UpdateScheduleModal from './_components/UpdateSchedule';
+import DeleteScheduleModal from './_components/DeleteScheduleModal';
 
 const ScheduleManagement = () => {
   const { data: scheduleResponse, isLoading } =
@@ -60,6 +61,9 @@ const ScheduleManagement = () => {
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
                     Availability
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
+                    Active Status
                   </th>
                   <th className="px-6 py-4 text-right text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
                     Actions
@@ -125,14 +129,30 @@ const ScheduleManagement = () => {
                           </div>
                         )}
                       </td>
+                      {/* active status */}
+                      <td className="px-6 py-4">
+                        {item.isActive ? (
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 text-[11px] font-bold uppercase tracking-wider border border-emerald-100">
+                            <CheckCircle size={12} />
+                            Active
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-50 text-red-600  text-[11px] font-bold uppercase tracking-wider border border-slate-100">
+                            <XCircle size={12} />
+                            Inactive
+                          </div>
+                        )}
+                      </td>
 
                       {/* Actions */}
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <UpdateScheduleModal schedule_id={item.id} />
-                          <button className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all rounded-lg">
-                            <Trash2 size={16} />
-                          </button>
+                          <DeleteScheduleModal
+                            scheduleId={item.id}
+                            day={item.day_of_week}
+                            time={`${timeConverter(item.start_time)} - ${timeConverter(item.end_time)}`}
+                          />
                         </div>
                       </td>
                     </tr>

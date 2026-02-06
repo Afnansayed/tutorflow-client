@@ -50,21 +50,21 @@ const tutorApi = baseApi.injectEndpoints({
       },
       providesTags: ['tutor-schedule'],
     }),
-    deleteSchedule: builder.query({
+    deleteSchedule: builder.mutation({
       query: id => {
         return {
           url: `/tutor-schedule/${id}`,
           method: 'DELETE',
         };
       },
-      providesTags: ['tutor-schedule'],
+      invalidatesTags: ['tutor-schedule'],
     }),
   }),
 });
 
 export const {
   useCreateScheduleMutation,
-  useDeleteScheduleQuery,
+  useDeleteScheduleMutation,
   useGetMyScheduleQuery,
   useGetMyScheduleByIdQuery,
   useUpdateScheduleAvailabilityMutation,
