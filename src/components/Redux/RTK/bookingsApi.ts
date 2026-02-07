@@ -12,10 +12,10 @@ const bookingsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ['bookings'],
     }),
-    updatedBookingStatus: builder.mutation({
+    updateBookingStatus: builder.mutation({
       query: ({ id, data }: { id: string; data: any }) => {
         return {
-          url: `/booking/${id}`,
+          url: `/booking/${id}/status`,
           method: 'PATCH',
           body: data,
         };
@@ -66,6 +66,6 @@ export const {
   useGetAdminBookingsQuery,
   useGetTutorBookingsQuery,
   useGetStudentBookingsQuery,
-  useUpdatedBookingStatusMutation,
+  useUpdateBookingStatusMutation,
   useGetTutorBookingByIdQuery,
 } = bookingsApi;

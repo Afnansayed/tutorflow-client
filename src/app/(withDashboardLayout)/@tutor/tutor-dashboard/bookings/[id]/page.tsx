@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { timeConverter } from '@/utils/timeConverter';
+import UpdateBookingStatusModal from '../_components/UpdateBookingStatus';
 
 const BookingDetails = () => {
   const { id } = useParams();
@@ -247,9 +248,10 @@ const BookingDetails = () => {
                   </div>
                 </div>
 
-                <button className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-95 mt-4">
-                  Update Status
-                </button>
+                <UpdateBookingStatusModal
+                  bookingId={booking.id}
+                  currentStatus={booking.status}
+                />
               </div>
             </motion.div>
 
