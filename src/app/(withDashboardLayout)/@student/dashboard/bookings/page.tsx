@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-const TutorBookingPage = () => {
+const StudentBookingPage = () => {
   const { data: bookingResponse, isLoading } =
     useGetStudentBookingsQuery(undefined);
   const bookings: Booking[] = bookingResponse?.data || [];
@@ -185,7 +185,7 @@ const TutorBookingPage = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <Link href={`/tutor-dashboard/bookings/${booking?.id}`}>
+                        <Link href={`/dashboard/bookings/${booking?.id}`}>
                           <Button className="py-1 rounded-xl">
                             <Eye /> View
                           </Button>
@@ -212,4 +212,4 @@ const TutorBookingPage = () => {
   );
 };
 
-export default TutorBookingPage;
+export default StudentBookingPage;

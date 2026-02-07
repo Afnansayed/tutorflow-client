@@ -12,6 +12,7 @@ export interface Booking {
   updatedAt: string;
   student: Student;
   tutor: Tutor;
+  review: BookingReview;
   tutor_schedule: TutorSchedule;
 }
 
@@ -41,6 +42,12 @@ export interface Tutor {
   };
   createdAt: string;
   updatedAt: string;
+}
+
+export interface BookingReview {
+  rating: number;
+  comment: string;
+  isApproved: boolean;
 }
 
 export interface TutorSchedule {

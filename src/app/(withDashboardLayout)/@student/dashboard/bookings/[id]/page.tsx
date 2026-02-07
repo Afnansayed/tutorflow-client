@@ -20,13 +20,15 @@ import {
   ShieldCheck,
   CreditCard,
   FileText,
+  Star,
 } from 'lucide-react';
 import Link from 'next/link';
 import { timeConverter } from '@/utils/timeConverter';
-import UpdateBookingStatusModal from '../_components/UpdateBookingStatus';
-import BookingReview from '../_components/BookingReview';
+import UpdateBookingStatusModal from '@/app/(withDashboardLayout)/@tutor/tutor-dashboard/bookings/_components/UpdateBookingStatus';
+import { Button } from '@/components/ui/button';
+import BookingReview from '@/app/(withDashboardLayout)/@tutor/tutor-dashboard/bookings/_components/BookingReview';
 
-const BookingDetails = () => {
+const StudentBookingDetails = () => {
   const { id } = useParams();
   const { data: bookingResponse, isLoading } = useGetTutorBookingByIdQuery(
     id as string
@@ -56,7 +58,7 @@ const BookingDetails = () => {
         {/* Breadcrumb & Navigation */}
         <div className="flex items-center justify-between mb-8">
           <Link
-            href="/tutor-dashboard/bookings"
+            href="/dashboard/bookings"
             className="group flex items-center gap-2 text-slate-400 hover:text-[#2596be] font-bold text-sm transition-all"
           >
             <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 group-hover:border-[#2596be]/20">
@@ -100,16 +102,16 @@ const BookingDetails = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Student Card */}
+                  {/* Tutor */}
                   <div className="space-y-4">
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                      Learner Profile
+                      Tutor Profile
                     </p>
                     <div className="flex items-center gap-4 p-5 bg-slate-50 rounded-[1.5rem] border border-slate-100 group hover:bg-white hover:shadow-md transition-all cursor-default">
                       <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
-                        {booking.student?.image ? (
+                        {booking.tutor?.profile_picture ? (
                           <img
-                            src={booking.student.image}
+                            src={booking.tutor?.profile_picture}
                             className="w-full h-full object-cover"
                             alt=""
                           />
@@ -119,13 +121,13 @@ const BookingDetails = () => {
                       </div>
                       <div>
                         <p className="font-black text-slate-800 leading-tight">
-                          {booking.student?.name}
+                          {booking?.tutor?.user?.name}
                         </p>
                         <p className="text-slate-500 text-xs font-medium mt-1 truncate max-w-[140px]">
-                          {booking.student?.email}
+                          {booking?.tutor?.user?.email}
                         </p>
                         <div className="mt-2 inline-flex items-center gap-1 text-[9px] font-bold text-[#2596be] bg-[#2596be]/5 px-2 py-0.5 rounded-full">
-                          <ShieldCheck size={10} /> Verified Student
+                          <ShieldCheck size={10} /> Verified Tutor
                         </div>
                       </div>
                     </div>
@@ -198,7 +200,8 @@ const BookingDetails = () => {
                 )}
               </div>
             </motion.div>
-            {/* Review */}
+
+            {/* review */}
             <BookingReview review={booking?.review} />
           </div>
 
@@ -275,4 +278,4 @@ const BookingDetails = () => {
   );
 };
 
-export default BookingDetails;
+export default StudentBookingDetails;
