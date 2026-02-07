@@ -11,6 +11,7 @@ export interface Booking {
   createdAt: string;
   updatedAt: string;
   student: Student;
+  tutor: Tutor;
   tutor_schedule: TutorSchedule;
 }
 
@@ -22,6 +23,22 @@ export interface Student {
   image: string;
   status: string;
   role: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Tutor {
+  id: string;
+  user_id: string;
+  bio: string;
+  profile_picture: string;
+  hourly_rate: number;
+  total_reviews: number;
+  average_rating: number;
+  user: {
+    name: string;
+    email: string;
+  };
   createdAt: string;
   updatedAt: string;
 }

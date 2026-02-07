@@ -10,6 +10,11 @@ export const studentRoutes: Route[] = [
         url: '/dashboard/account',
         icon: User,
       },
+      {
+        title: 'Bookings',
+        url: '/dashboard/bookings',
+        icon: User,
+      },
     ],
   },
 ];

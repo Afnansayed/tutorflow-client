@@ -1,6 +1,9 @@
 'use client';
 
-import { useGetTutorBookingsQuery } from '@/components/Redux/RTK/bookingsApi';
+import {
+  useGetStudentBookingsQuery,
+  useGetTutorBookingsQuery,
+} from '@/components/Redux/RTK/bookingsApi';
 import { Button } from '@/components/ui/button';
 import { Booking } from '@/type/booking.type';
 import { timeConverter } from '@/utils/timeConverter';
@@ -21,7 +24,7 @@ import Link from 'next/link';
 
 const TutorBookingPage = () => {
   const { data: bookingResponse, isLoading } =
-    useGetTutorBookingsQuery(undefined);
+    useGetStudentBookingsQuery(undefined);
   const bookings: Booking[] = bookingResponse?.data || [];
 
   const getStatusStyle = (status: string) => {
@@ -61,7 +64,7 @@ const TutorBookingPage = () => {
               <thead>
                 <tr className="bg-[#2596be]">
                   <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
-                    Student
+                    Tutor
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
                     Schedule & Date
@@ -101,10 +104,10 @@ const TutorBookingPage = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                            {booking.student?.image ? (
+                            {booking.tutor?.profile_picture ? (
                               <img
-                                src={booking.student.image}
-                                alt={booking.student.name}
+                                src={booking?.tutor?.profile_picture}
+                                alt={booking?.tutor?.user_id}
                                 className="w-full h-full object-cover"
                               />
                             ) : (
@@ -115,10 +118,10 @@ const TutorBookingPage = () => {
                           </div>
                           <div className="flex flex-col">
                             <span className="text-sm font-bold text-slate-900">
-                              {booking.student?.name}
+                              {booking?.tutor?.user?.name}
                             </span>
                             <span className="text-[11px] text-slate-400 font-medium lowercase tracking-tight">
-                              {booking.student?.email}
+                              {booking?.tutor?.user.email}
                             </span>
                           </div>
                         </div>
