@@ -13,7 +13,7 @@ const TutorReviewManagement = () => {
   return (
     <div className="py-6 min-h-screen">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header Section */}
+        {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
             Student Reviews
@@ -23,7 +23,7 @@ const TutorReviewManagement = () => {
           </p>
         </div>
 
-        {/* Table Container */}
+        {/* Table  */}
         <motion.div
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}

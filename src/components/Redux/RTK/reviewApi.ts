@@ -33,11 +33,10 @@ const reviewApi = baseApi.injectEndpoints({
       invalidatesTags: ['review'],
     }),
     deleteReview: builder.mutation({
-      query: ({ id, data }: { id: string; data: any }) => {
+      query: ({ id }: { id: string }) => {
         return {
           url: `/review/${id}`,
           method: 'DELETE',
-          body: data,
         };
       },
       invalidatesTags: ['review'],
