@@ -3,4 +3,5 @@ export const tagTypes = [
   'tutor',
   'bookings',
   'tutor-schedule',
+  'review',
 ] as const;

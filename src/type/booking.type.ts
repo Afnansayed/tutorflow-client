@@ -45,6 +45,7 @@ export interface Tutor {
 }
 
 export interface BookingReview {
+  id: string;
   rating: number;
   comment: string;
   isApproved: boolean;

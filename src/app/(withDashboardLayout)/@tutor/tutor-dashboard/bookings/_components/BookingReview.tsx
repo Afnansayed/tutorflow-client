@@ -1,18 +1,29 @@
 'use client';
 
+import RateSessionModal from '@/app/(withDashboardLayout)/@student/dashboard/bookings/_components/RateSessionModal';
+import UpdateReviewModal from '@/app/(withDashboardLayout)/@student/dashboard/bookings/_components/UpdateRateSessionModal';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 
 interface ReviewProps {
   review?: {
+    id: string;
     rating: number;
     comment: string;
   };
   onRateClick?: () => void;
   isButton: boolean;
+  createBooking?: {
+    booking_id: string;
+  };
 }
 
-const BookingReview = ({ review, onRateClick, isButton }: ReviewProps) => {
+const BookingReview = ({
+  review,
+  onRateClick,
+  isButton,
+  createBooking,
+}: ReviewProps) => {
   return (
     <div className="mt-6">
       {review ? (
@@ -54,6 +65,14 @@ const BookingReview = ({ review, onRateClick, isButton }: ReviewProps) => {
               <div className="w-4 h-1 bg-emerald-300 rounded-full" />
               Thank you for sharing!
             </div>
+
+            {isButton && review && (
+              <UpdateReviewModal
+                reviewId={review.id || ''}
+                currentRating={review.rating}
+                currentComment={review.comment}
+              />
+            )}
           </div>
         </motion.div>
       ) : (
@@ -72,12 +91,7 @@ const BookingReview = ({ review, onRateClick, isButton }: ReviewProps) => {
             </p>
           </div>
           {isButton && (
-            <button
-              onClick={onRateClick}
-              className="mt-2 px-6 py-2 bg-[#2596be] text-white rounded-xl text-xs font-black shadow-lg shadow-blue-100 active:scale-95 transition-all"
-            >
-              Rate The Session
-            </button>
+            <RateSessionModal bookingId={createBooking?.booking_id} />
           )}
         </motion.div>
       )}
