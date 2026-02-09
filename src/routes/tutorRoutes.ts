@@ -20,6 +20,11 @@ export const tutorRoutes: Route[] = [
         url: '/tutor-dashboard/schedule',
         icon: User,
       },
+      {
+        title: 'Reviews',
+        url: '/tutor-dashboard/reviews',
+        icon: User,
+      },
     ],
   },
 ];
