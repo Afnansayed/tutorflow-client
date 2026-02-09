@@ -21,7 +21,7 @@ import { ConfirmationModal } from '@/components/Common/ConfirmModalProps';
 import { UpdateReviewStatusModal } from './_components/page';
 
 const AdminReviewManagement = () => {
-  const { data: reviewResponse, isLoading } = useGetAllReviewQuery(undefined);
+  const { data: reviewResponse } = useGetAllReviewQuery(undefined);
   const [deleteReview, { isLoading: isDeleting }] = useDeleteReviewMutation();
   const [updateStatus, { isLoading: isUpdating }] =
     useUpdateReviewStatusMutation();
