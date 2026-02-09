@@ -9,9 +9,10 @@ interface ReviewProps {
     comment: string;
   };
   onRateClick?: () => void;
+  isButton: boolean;
 }
 
-const BookingReview = ({ review, onRateClick }: ReviewProps) => {
+const BookingReview = ({ review, onRateClick, isButton }: ReviewProps) => {
   return (
     <div className="mt-6">
       {review ? (
@@ -70,12 +71,14 @@ const BookingReview = ({ review, onRateClick }: ReviewProps) => {
               here.
             </p>
           </div>
-          <button
-            onClick={onRateClick}
-            className="mt-2 px-6 py-2 bg-[#2596be] text-white rounded-xl text-xs font-black shadow-lg shadow-blue-100 active:scale-95 transition-all"
-          >
-            Rate The Session
-          </button>
+          {isButton && (
+            <button
+              onClick={onRateClick}
+              className="mt-2 px-6 py-2 bg-[#2596be] text-white rounded-xl text-xs font-black shadow-lg shadow-blue-100 active:scale-95 transition-all"
+            >
+              Rate The Session
+            </button>
+          )}
         </motion.div>
       )}
     </div>

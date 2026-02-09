@@ -26,7 +26,7 @@ import { timeConverter } from '@/utils/timeConverter';
 import UpdateBookingStatusModal from '../_components/UpdateBookingStatus';
 import BookingReview from '../_components/BookingReview';
 
-const BookingDetails = () => {
+const TutorBookingDetails = () => {
   const { id } = useParams();
   const { data: bookingResponse, isLoading } = useGetTutorBookingByIdQuery(
     id as string
@@ -199,7 +199,7 @@ const BookingDetails = () => {
               </div>
             </motion.div>
             {/* Review */}
-            <BookingReview review={booking?.review} />
+            <BookingReview review={booking?.review} isButton={false} />
           </div>
 
           {/* Right Side: Payment & Status Update */}
@@ -275,4 +275,4 @@ const BookingDetails = () => {
   );
 };
 
-export default BookingDetails;
+export default TutorBookingDetails;

@@ -202,7 +202,7 @@ const StudentBookingDetails = () => {
             </motion.div>
 
             {/* review */}
-            <BookingReview review={booking?.review} />
+            <BookingReview review={booking?.review} isButton={true} />
           </div>
 
           {/* Right Side: Payment & Status Update */}

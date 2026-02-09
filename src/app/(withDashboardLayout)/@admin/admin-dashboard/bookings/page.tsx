@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-const StudentBookingPage = () => {
+const AdminBookingPage = () => {
   const { data: bookingResponse, isLoading } =
     useGetAdminBookingsQuery(undefined);
   const bookings: Booking[] = bookingResponse?.data || [];
@@ -65,6 +65,9 @@ const StudentBookingPage = () => {
               <thead>
                 <tr className="bg-[#2596be]">
                   <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
+                    Student
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
                     Tutor
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-widest border-b border-[#1e7da0]">
@@ -102,6 +105,32 @@ const StudentBookingPage = () => {
                       className="hover:bg-slate-50/50 transition-colors group"
                     >
                       {/* Student Info */}
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
+                            {booking.student?.image ? (
+                              <img
+                                src={booking.student.image}
+                                alt={booking.student.name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                <User size={20} />
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-bold text-slate-900">
+                              {booking.student?.name}
+                            </span>
+                            <span className="text-[11px] text-slate-400 font-medium lowercase tracking-tight">
+                              {booking.student?.email}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      {/* Tutor Info */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
@@ -213,4 +242,4 @@ const StudentBookingPage = () => {
   );
 };
 
-export default StudentBookingPage;
+export default AdminBookingPage;
