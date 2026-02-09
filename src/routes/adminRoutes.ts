@@ -25,6 +25,11 @@ export const adminRoutes: Route[] = [
         url: '/admin-dashboard/reviews',
         icon: User,
       },
+      {
+        title: 'Users',
+        url: '/admin-dashboard/users',
+        icon: User,
+      },
     ],
   },
 ];
