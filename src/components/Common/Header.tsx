@@ -46,7 +46,7 @@ export default function Header() {
   }, []);
 
   const links: NavLink[] = [
-    { path: '/explore', label: 'Explore Tutors' },
+    { path: '/tutors', label: 'Explore Tutors' },
     {
       path: '/subjects',
       label: 'Subjects',
@@ -133,7 +133,7 @@ export default function Header() {
             <input
               type="text"
               placeholder="Search..."
-              className="w-full h-10 bg-slate-100 border-none rounded-xl pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+              className="w-full h-10 bg-slate-100 border-none rounded-full pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
             />
           </div>
 
