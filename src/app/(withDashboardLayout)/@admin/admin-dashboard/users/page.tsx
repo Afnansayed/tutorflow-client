@@ -31,7 +31,7 @@ const UserManagement = () => {
   return (
     <div className="py-6 min-h-screen">
       <div className="max-w-7xl mx-auto ">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
@@ -39,40 +39,39 @@ const UserManagement = () => {
             <p className="text-slate-500 text-sm font-medium">Control user access and permissions.</p>
           </div>
 
-      <div className="flex bg-secondary p-1.5 rounded-[0.8rem] border border-slate-200 shadow-inner relative">
-  {[
-    { label: 'All', value: undefined, icon: Users },
-    { label: 'Students', value: 'STUDENT', icon: User },
-    { label: 'Tutors', value: 'TUTOR', icon: GraduationCap },
-    { label: 'Admins', value: 'ADMIN', icon: Shield },
-  ].map((role) => {
-    const isActive = filterRole === role.value;
-    return (
-      <button
-        key={role.label}
-        onClick={() => setFilterRole(role.value)}
-        className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-[11px] font-black transition-all duration-300 z-10 ${
-          isActive ? 'text-[#2596be]' : 'text-slate-500 hover:text-slate-700'
-        }`}
-      >
-        {/* Active Background Animation */}
-        {isActive && (
-          <motion.div
-            layoutId="activeTab"
-            className="absolute inset-0 bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100"
-            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-          />
-        )}
-        
-        {/* Content (Icon & Text) */}
-        <span className="relative z-20 flex items-center gap-2 uppercase tracking-[0.05em]">
-          <role.icon size={15} className={isActive ? "text-[#2596be]" : "text-slate-400"} />
-          <span className="hidden md:inline">{role.label}</span>
-        </span>
-      </button>
-    );
-  })}
-</div>
+          <div className="flex bg-secondary p-1.5 rounded-[0.8rem] border border-slate-200 shadow-inner relative">
+            {[
+              { label: 'All', value: undefined, icon: Users },
+              { label: 'Students', value: 'STUDENT', icon: User },
+              { label: 'Tutors', value: 'TUTOR', icon: GraduationCap },
+              { label: 'Admins', value: 'ADMIN', icon: Shield },
+            ].map((role) => {
+              const isActive = filterRole === role.value;
+              return (
+                <button
+                  key={role.label}
+                  onClick={() => setFilterRole(role.value)}
+                  className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-[11px] font-black transition-all duration-300 z-10 ${isActive ? 'text-[#2596be]' : 'text-slate-500 hover:text-slate-700'
+                    }`}
+                >
+                  {/* Active Background Animation */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+
+                  {/* Content (Icon & Text) */}
+                  <span className="relative z-20 flex items-center gap-2 uppercase tracking-[0.05em]">
+                    <role.icon size={15} className={isActive ? "text-[#2596be]" : "text-slate-400"} />
+                    <span className="hidden md:inline">{role.label}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Table */}
@@ -114,13 +113,12 @@ const UserManagement = () => {
                       {/* Improved Status Badge */}
                       <td className="px-6 py-4">
                         <div className="flex justify-center">
-                          <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm border ${
-                            user.status === 'ACTIVE' 
-                              ? 'bg-emerald-500 text-white border-emerald-400' 
+                          <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm border ${user.status === 'ACTIVE'
+                              ? 'bg-emerald-500 text-white border-emerald-400'
                               : user.status === 'BANNED'
-                              ? 'bg-rose-50 text-rose-600 border-rose-100'
-                              : 'bg-amber-50 text-amber-600 border-amber-100'
-                          }`}>
+                                ? 'bg-rose-50 text-rose-600 border-rose-100'
+                                : 'bg-amber-50 text-amber-600 border-amber-100'
+                            }`}>
                             <span className={`w-1.5 h-1.5 rounded-full ${user.status === 'ACTIVE' ? 'bg-white animate-pulse' : 'bg-current'}`} />
                             {user.status}
                           </span>
@@ -128,7 +126,7 @@ const UserManagement = () => {
                       </td>
 
                       <td className="px-6 py-4 text-right">
-                        <button 
+                        <button
                           onClick={() => { setSelectedUser(user); setShowStatusModal(true); }}
                           className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-[#2596be] hover:text-white transition-all"
                         >
