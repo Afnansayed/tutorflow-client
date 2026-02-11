@@ -6,6 +6,7 @@ import { Star, Clock, BookOpen, DollarSign, ShieldCheck, MessageCircle, Calendar
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { tutorService } from "@/service/tutor.service";
+import Link from "next/link";
 
 export default async function TutorDetailsPage({
   params,
@@ -23,16 +24,11 @@ export default async function TutorDetailsPage({
 
   return (
     <div className="min-h-screen bg-[#fcfdfe] pb-20">
-      {/* Header Background Gradient */}
       <div className="h-40 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100/50" />
-
       <article className="container mx-auto px-4 -mt-20 relative z-10 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-          {/* Left Column: Profile Info */}
+          {/* Left Column Profile Info */}
           <div className="lg:col-span-2 space-y-8">
-
-            {/* Main Profile Card */}
             <header className="bg-white rounded-[1.2rem] p-8 shadow-sm border border-slate-100">
               <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
                 <div className="relative h-44 w-44 shrink-0 overflow-hidden rounded-full border-8 border-white shadow-xl">
@@ -73,7 +69,7 @@ export default async function TutorDetailsPage({
               </div>
             </header>
 
-            {/* Stats Grid */}
+            {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <StatCard icon={<DollarSign />} label="Hourly Rate" value={`$${tutor.hourly_rate}`} />
               <StatCard icon={<Star />} label="Rating" value={tutor.average_rating} />
@@ -144,7 +140,7 @@ export default async function TutorDetailsPage({
             </section>
           </div>
 
-          {/* Right Column: Sticky Sidebar */}
+          {/* Right Column */}
           <aside className="lg:col-span-1">
             <div className="sticky top-24 bg-primary rounded-[1.2rem] p-8 text-primary-foreground shadow-2xl shadow-primary/20 transition-all">
               {/* Hourly Rate Section */}
@@ -160,9 +156,11 @@ export default async function TutorDetailsPage({
 
               {/* Actions Section */}
               <div className="space-y-4">
-                <Button className="w-full bg-white text-primary hover:bg-slate-100 py-6 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg transition-transform active:scale-95">
+              <Link href={`/booking/${tutor.id}`} className="w-full">
+                <Button  className="w-full bg-white text-primary hover:bg-slate-100 py-6 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg transition-transform active:scale-95">
                   Book Trial Session
                 </Button>
+                </Link>
 
                 <Button
                   variant="outline"

@@ -50,6 +50,15 @@ const tutorApi = baseApi.injectEndpoints({
       },
       providesTags: ['tutor-schedule'],
     }),
+    getMyScheduleByTutorUserId: builder.query({
+      query: id => {
+        return {
+          url: `/tutor-schedule/${id}/user`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['tutor-schedule'],
+    }),
     deleteSchedule: builder.mutation({
       query: id => {
         return {
@@ -69,4 +78,5 @@ export const {
   useGetMyScheduleByIdQuery,
   useUpdateScheduleAvailabilityMutation,
   useUpdateScheduleMutation,
+  useGetMyScheduleByTutorUserIdQuery
 } = tutorApi;
