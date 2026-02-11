@@ -56,11 +56,13 @@ export const tutorService = {
       const res = await fetch(`${API_URL}/tutor-profile/${id}`, {
         next: { tags: ['tutorDetail'] },
       });
+    //  console.log(`${API_URL}/tutor-profile/${id}`);
       
       if (!res.ok) {
         throw new Error('Failed to fetch tutors');
       }
       const data = await res.json();
+      // console.log({data});
       return { data: data, error: null };
     } catch (err) {
       return { data: null, error: { message: 'Something Went Wrong' } };

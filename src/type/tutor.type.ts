@@ -9,6 +9,7 @@ export interface TutorProfile {
   createdAt: string;
   updatedAt: string;
   categories: TutorCategory[];
+  reviews: TutorReview[];
   user: User;
 }
 
@@ -20,4 +21,18 @@ export interface TutorCategory {
 export interface User {
   name: string;
   email: string;
+}
+
+export interface TutorReview {
+  id: string;
+  rating: number;
+  comment: string;
+  isApproved: boolean;
+  student: TutorStudent;
+}
+
+export interface TutorStudent {
+  id: string
+  name: string
+  image: string
 }
