@@ -13,11 +13,13 @@ import { toast } from "sonner";
 import { timeConverter } from "@/utils/timeConverter";
 import { BookingSummary } from "./BookingSummary";
 import { useCreateBookingsMutation } from "@/components/Redux/RTK/bookingsApi";
+import { useRouter } from "next/navigation";
 
 export const BookingClient = ({ tutor }: { tutor: TutorProfile }) => {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedScheduleId, setSelectedScheduleId] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const { data: scheduleResponse, isLoading } = useGetMyScheduleByTutorUserIdQuery(tutor?.user_id);
   const scheduleData: TutorSchedule[] = scheduleResponse?.data || [];
@@ -30,13 +32,15 @@ export const BookingClient = ({ tutor }: { tutor: TutorProfile }) => {
     setIsSubmitting(true);
     try {
       // API Call logic here
+      const isoDate = new Date(selectedDate).toISOString();
       const payload = {
         tutor_id: tutor.user_id,
         schedule_id: selectedScheduleId,
-        booking_date: selectedDate
+        booking_date: isoDate
       }
       await createBooking(payload).unwrap();
       toast.success("Booking Request Sent Successfully!");
+      router.push('/dashboard/bookings')
     } catch (error: any) {
       toast.error( error?.message || error?.data?.message ||"Failed to process booking");
     } finally {

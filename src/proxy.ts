@@ -16,6 +16,14 @@ export async function proxy(request: NextRequest) {
 
   const userRole = user.role;
 
+  // booking logic
+  if (pathname.startsWith('/booking')) {
+    if (userRole !== Roles.student) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  }
+
   // for admin redirect
   if (userRole === Roles.admin) {
     if (
@@ -57,5 +65,7 @@ export const config = {
     '/admin-dashboard/:path*',
     '/tutor-dashboard',
     '/tutor-dashboard/:path*',
+    '/booking',
+    '/booking/:path*',
   ],
 };
