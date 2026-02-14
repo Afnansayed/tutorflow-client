@@ -38,13 +38,13 @@ const RegisterPage = () => {
     setLoading(true);
     const toastId = toast.loading('Creating account...');
 
-    // API-তে পাঠানোর জন্য ডাটা ফরম্যাট করা
+    // payload for registration
     const registerData = {
       name: data.name,
       email: data.email,
       password: data.password,
     };
-    console.log({ registerData });
+    // console.log({ registerData });
 
     try {
       const { data, error } = await authClient.signUp.email(registerData);

@@ -2,13 +2,12 @@ import { Roles } from '@/constants/roles';
 import { userService } from '@/service/user.service';
 import { NextRequest, NextResponse } from 'next/server';
 
-
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const { data } = await userService.getSession();
   const user = data?.user;
-  console.log({user});
+  // console.log({user});
 
   if (!user) {
     return NextResponse.redirect(new URL('/login', request.url));

@@ -41,8 +41,8 @@ const LoginPage = () => {
     const toastId = toast.loading('Logging in...');
     try {
       const { data, error } = await authClient.signIn.email(value);
-      console.log({ data });
-      console.log({ error });
+      // console.log({ data });
+      // console.log({ error });
 
       if (data) {
         if (data?.token) {
