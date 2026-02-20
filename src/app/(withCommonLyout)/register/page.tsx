@@ -21,6 +21,7 @@ interface RegisterFormInputs {
   name: string;
   email: string;
   password: string;
+  role: 'STUDENT' | 'TUTOR';
 }
 
 const RegisterPage = () => {
@@ -32,7 +33,11 @@ const RegisterPage = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<RegisterFormInputs>();
+  } = useForm<RegisterFormInputs>({
+    defaultValues: {
+      role: 'STUDENT',
+    },
+  });
 
   const onSubmit = async (data: RegisterFormInputs) => {
     setLoading(true);
@@ -43,6 +48,7 @@ const RegisterPage = () => {
       name: data.name,
       email: data.email,
       password: data.password,
+      role: data.role,
     };
     // console.log({ registerData });
 
@@ -173,6 +179,37 @@ const RegisterPage = () => {
                     size={16}
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors"
                   />
+                </div>
+              </div>
+              {/* Role Field */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 ml-1">
+                  I want to join as a
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="relative cursor-pointer">
+                    <input
+                      type="radio"
+                      {...register('role')}
+                      value="STUDENT"
+                      className="peer sr-only"
+                    />
+                    <div className="p-3 text-center bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 peer-checked:bg-[#2596be]/10 peer-checked:border-[#2596be] peer-checked:text-[#2596be] transition-all">
+                      Student
+                    </div>
+                  </label>
+
+                  <label className="relative cursor-pointer">
+                    <input
+                      type="radio"
+                      {...register('role')}
+                      value="TUTOR"
+                      className="peer sr-only"
+                    />
+                    <div className="p-3 text-center bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 peer-checked:bg-[#2596be]/10 peer-checked:border-[#2596be] peer-checked:text-[#2596be] transition-all">
+                      Tutor
+                    </div>
+                  </label>
                 </div>
               </div>
 
