@@ -5,7 +5,6 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import { RootState } from './store';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { tagTypes } from '@/constants/tagTypes';
 
@@ -19,11 +18,15 @@ interface ErrorResponse {
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_BASE_API,
   credentials: 'include',
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.accessToken;
-    if (token) {
-      headers.set('authorization', `Bearer${token}`);
+  prepareHeaders: headers => {
+    if (typeof window !== 'undefined') {
+      const allCookies = document.cookie;
+      if (allCookies) {
+        headers.set('Cookie', allCookies);
+      }
     }
+
+    headers.set('Content-Type', 'application/json');
     return headers;
   },
 });

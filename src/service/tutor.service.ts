@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
 interface ServiceOptions {
@@ -17,6 +19,7 @@ export const tutorService = {
     params?: GetTutorParams,
     options?: ServiceOptions
   ) {
+    const cookieStore = await cookies();
     try {
       const url = new URL(`${API_URL}/tutor-profile`);
       // if query value exists, then add
@@ -39,7 +42,12 @@ export const tutorService = {
       //add tags for revalidate
       config.next = { ...config.next, tags: ['tutors'] };
 
-      const res = await fetch(url.toString(), config);
+      const res = await fetch(url.toString(), {
+        ...config,
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+      });
       if (!res.ok) {
         throw new Error('Failed to fetch tutors');
       }
@@ -52,12 +60,16 @@ export const tutorService = {
   },
 
   getTutorById: async function (id: string) {
+    const cookieStore = await cookies();
     try {
       const res = await fetch(`${API_URL}/tutor-profile/${id}`, {
         next: { tags: ['tutorDetail'] },
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
       });
-    //  console.log(`${API_URL}/tutor-profile/${id}`);
-      
+      //  console.log(`${API_URL}/tutor-profile/${id}`);
+
       if (!res.ok) {
         throw new Error('Failed to fetch tutors');
       }
