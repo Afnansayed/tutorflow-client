@@ -130,7 +130,7 @@ const BecomeATutor = () => {
         </div>
       </section>
 
-      <div className="space-y-32 py-12 bg-white">
+      <div className="space-y-12 py-12 bg-white">
         {/* --- FEATURES SECTION (Modern Bento Style) --- */}
         <section className="container-max">
           <div className="bg-[#f0f9ff] rounded-[1.5rem] p-8 md:p-12 relative overflow-hidden border border-blue-50/50">
@@ -240,14 +240,13 @@ const BecomeATutor = () => {
             </div>
           </div>
         </section>
-
         {/* --- TRUST SECTION --- */}
         <section className="container mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-6">
             <h2 className="text-sm font-black text-[#2596be] uppercase tracking-[0.4em] mb-4">
               Professional Toolkit
             </h2>
-            <h3 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+            <h3 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
               Built for high-performance.
             </h3>
           </div>
@@ -275,6 +274,7 @@ const BecomeATutor = () => {
             ))}
           </div>
         </section>
+
         {/* --- FINAL CTA SECTION --- */}
         <section className="container-max px-4">
           <div className="relative group overflow-hidden rounded-[1.5rem]">
