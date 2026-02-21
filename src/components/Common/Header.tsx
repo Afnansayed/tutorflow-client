@@ -57,7 +57,7 @@ export default function Header() {
       // ],
     },
     { path: '/become-tutor', label: 'Become a Tutor' },
-    { path: '/pricing', label: 'Pricing' },
+    { path: '/faq', label: 'Faq' },
   ];
 
   return (
