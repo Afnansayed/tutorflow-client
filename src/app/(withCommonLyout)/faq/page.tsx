@@ -14,7 +14,7 @@ const faqs = [
   {
     question: 'What are the fees for using the platform?',
     answer:
-      "We believe in transparency. For our base plan, we don't take any commission from your earnings. There is a small monthly subscription fee to access premium tools.",
+      "We believe in transparency. For our base plan, we don't take any commission from your earnings. There is a small monthly subscription fee to access premium tools. And we have lot of tools.",
   },
   {
     question: 'How do I receive payments?',
