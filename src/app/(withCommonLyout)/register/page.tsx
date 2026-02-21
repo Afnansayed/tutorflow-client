@@ -14,8 +14,8 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { userRegister } from '@/components/Authentication/userRegister';
 import { authClient } from '@/lib/auth-client';
+import { useSearchParams } from 'next/navigation';
 
 interface RegisterFormInputs {
   name: string;
@@ -25,6 +25,8 @@ interface RegisterFormInputs {
 }
 
 const RegisterPage = () => {
+  const params = useSearchParams();
+  const roleParams = params.get('role');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +37,7 @@ const RegisterPage = () => {
     reset,
   } = useForm<RegisterFormInputs>({
     defaultValues: {
-      role: 'STUDENT',
+      role: (roleParams === 'TUTOR' ? 'TUTOR' : 'STUDENT') as 'STUDENT' | 'TUTOR',
     },
   });
 
