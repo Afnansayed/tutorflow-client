@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Loader2, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import {
   Dialog,
@@ -12,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useUpdateBookingStatusMutation } from '@/components/Redux/RTK/bookingsApi';
+import { updateBookingStatusAction } from '@/actions/updateBookingStatusAction';
 
 enum BookingStatus {
   CONFIRMED = 'CONFIRMED',
@@ -30,7 +31,8 @@ const UpdateBookingStatusModal = ({
   currentStatus,
 }: UpdateStatusProps) => {
   const [open, setOpen] = useState(false);
-  const [updateBooking, { isLoading }] = useUpdateBookingStatusMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -38,13 +40,24 @@ const UpdateBookingStatusModal = ({
     },
   });
 
-  const onSubmit = async (data: { status: BookingStatus }) => {
+  const onSubmit = async (formData: { status: BookingStatus }) => {
+    setIsLoading(true);
     try {
-      await updateBooking({ id: bookingId, data }).unwrap();
-      toast.success(`Status updated to ${data.status}`);
+      const response = await updateBookingStatusAction(bookingId, formData);
+
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      toast.success(`Status updated to ${formData.status}`);
       setOpen(false);
+  
+      router.refresh(); 
+      
     } catch (error: any) {
-      toast.error(error?.data?.message || 'Failed to update status');
+      toast.error(error?.message || 'Failed to update status');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,7 +81,6 @@ const UpdateBookingStatusModal = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6">
-          {/* Status Selection */}
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
               <CheckCircle2 size={12} /> Select New Status
@@ -85,7 +97,6 @@ const UpdateBookingStatusModal = ({
             </select>
           </div>
 
-          {/* Info Box */}
           <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
             <AlertCircle size={16} className="text-amber-500 shrink-0 mt-0.5" />
             <p className="text-[10px] text-amber-700 leading-relaxed font-bold">
@@ -94,7 +105,6 @@ const UpdateBookingStatusModal = ({
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="pt-2 flex gap-3">
             <button
               type="button"
