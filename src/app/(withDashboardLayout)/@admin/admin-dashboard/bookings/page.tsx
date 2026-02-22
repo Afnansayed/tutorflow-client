@@ -1,45 +1,38 @@
-'use client';
-
-import {
-  useGetAdminBookingsQuery,
-  useGetStudentBookingsQuery,
-  useGetTutorBookingsQuery,
-} from '@/components/Redux/RTK/bookingsApi';
 import { Button } from '@/components/ui/button';
+import { bookingService } from '@/service/booking.service'; // আপনার সার্ভিস পাথ
 import { Booking } from '@/type/booking.type';
 import { timeConverter } from '@/utils/timeConverter';
-import { motion } from 'framer-motion';
 import {
   Calendar,
   Clock,
   User,
   ExternalLink,
   DollarSign,
-  Tag,
   CheckCircle2,
   AlertCircle,
-  MoreHorizontal,
   Eye,
 } from 'lucide-react';
 import Link from 'next/link';
 
-const AdminBookingPage = () => {
-  const { data: bookingResponse, isLoading } =
-    useGetAdminBookingsQuery(undefined);
-  const bookings: Booking[] = bookingResponse?.data || [];
+// Status Style Helper
+const getStatusStyle = (status: string) => {
+  switch (status?.toLowerCase()) {
+    case 'confirmed':
+      return 'bg-emerald-50 text-emerald-600 border-emerald-100';
+    case 'pending':
+      return 'bg-amber-50 text-amber-600 border-amber-100';
+    case 'completed':
+      return 'bg-blue-50 text-blue-600 border-blue-100';
+    default:
+      return 'bg-slate-50 text-slate-500 border-slate-100';
+  }
+};
 
-  const getStatusStyle = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'confirmed':
-        return 'bg-emerald-50 text-emerald-600 border-emerald-100';
-      case 'pending':
-        return 'bg-amber-50 text-amber-600 border-amber-100';
-      case 'completed':
-        return 'bg-blue-50 text-blue-600 border-blue-100';
-      default:
-        return 'bg-slate-50 text-slate-500 border-slate-100';
-    }
-  };
+const AdminBookingPage = async () => {
+  // ১. সরাসরি fetch সার্ভিস ব্যবহার করে ডাটা আনা (RTK Query-র বদলে)
+  const result = await bookingService.getBookings('admin');
+  const bookings: Booking[] = result.data?.data || [];
+  const error = result.error;
 
   return (
     <div className="py-6 min-h-screen">
@@ -47,19 +40,15 @@ const AdminBookingPage = () => {
         {/* Header Section */}
         <div className="mb-8 px-2">
           <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
-            My Bookings
+            Admin - All Bookings
           </h1>
           <p className="text-slate-500 text-sm">
-            Monitor your upcoming sessions and student appointments
+            Overview and management of all student-tutor appointments
           </p>
         </div>
 
         {/* Table Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm mx-2"
-        >
+        <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm mx-2">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -89,17 +78,14 @@ const AdminBookingPage = () => {
               </thead>
 
               <tbody className="divide-y divide-slate-100">
-                {isLoading ? (
+                {error ? (
                   <tr>
-                    <td
-                      colSpan={5}
-                      className="px-6 py-12 text-center text-slate-400 text-sm font-medium"
-                    >
-                      Loading bookings...
+                    <td colSpan={7} className="px-6 py-12 text-center text-red-500 font-medium">
+                      Failed to load bookings. Error: {error.message}
                     </td>
                   </tr>
                 ) : bookings.length > 0 ? (
-                  bookings.map(booking => (
+                  bookings.map((booking) => (
                     <tr
                       key={booking.id}
                       className="hover:bg-slate-50/50 transition-colors group"
@@ -111,7 +97,7 @@ const AdminBookingPage = () => {
                             {booking.student?.image ? (
                               <img
                                 src={booking.student.image}
-                                alt={booking.student.name}
+                                alt="student"
                                 className="w-full h-full object-cover"
                               />
                             ) : (
@@ -121,23 +107,24 @@ const AdminBookingPage = () => {
                             )}
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm font-bold text-slate-900">
-                              {booking.student?.name}
+                            <span className="text-sm font-bold text-slate-900 leading-none mb-1">
+                              {booking.student?.name || "N/A"}
                             </span>
-                            <span className="text-[11px] text-slate-400 font-medium lowercase tracking-tight">
+                            <span className="text-[11px] text-slate-400 font-medium lowercase">
                               {booking.student?.email}
                             </span>
                           </div>
                         </div>
                       </td>
+
                       {/* Tutor Info */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
                             {booking.tutor?.profile_picture ? (
                               <img
-                                src={booking?.tutor?.profile_picture}
-                                alt={booking?.tutor?.user_id}
+                                src={booking.tutor.profile_picture}
+                                alt="tutor"
                                 className="w-full h-full object-cover"
                               />
                             ) : (
@@ -147,11 +134,11 @@ const AdminBookingPage = () => {
                             )}
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm font-bold text-slate-900">
-                              {booking?.tutor?.user?.name}
+                            <span className="text-sm font-bold text-slate-900 leading-none mb-1">
+                              {booking.tutor?.user?.name || "N/A"}
                             </span>
-                            <span className="text-[11px] text-slate-400 font-medium lowercase tracking-tight">
-                              {booking?.tutor?.user.email}
+                            <span className="text-[11px] text-slate-400 font-medium lowercase">
+                              {booking.tutor?.user?.email}
                             </span>
                           </div>
                         </div>
@@ -166,10 +153,7 @@ const AdminBookingPage = () => {
                           </div>
                           <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
                             <Clock size={12} className="text-slate-300" />
-                            {timeConverter(
-                              booking.tutor_schedule?.start_time
-                            )}{' '}
-                            - {timeConverter(booking.tutor_schedule?.end_time)}
+                            {timeConverter(booking.tutor_schedule?.start_time)} - {timeConverter(booking.tutor_schedule?.end_time)}
                           </div>
                         </div>
                       </td>
@@ -187,7 +171,7 @@ const AdminBookingPage = () => {
                         <span
                           className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border ${getStatusStyle(booking.status)}`}
                         >
-                          {booking.status.toLowerCase() === 'confirmed' ? (
+                          {booking.status?.toLowerCase() === 'confirmed' ? (
                             <CheckCircle2 size={12} />
                           ) : (
                             <AlertCircle size={12} />
@@ -196,7 +180,7 @@ const AdminBookingPage = () => {
                         </span>
                       </td>
 
-                      {/* Session Link / Actions */}
+                      {/* Session Link */}
                       <td className="px-6 py-4 text-right">
                         {booking.session_link ? (
                           <a
@@ -206,18 +190,20 @@ const AdminBookingPage = () => {
                             className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-lg text-xs font-bold transition-all"
                           >
                             <ExternalLink size={14} />
-                            Join Session
+                            Join
                           </a>
                         ) : (
-                          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
-                            Link Pending
+                          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">
+                            Pending
                           </span>
                         )}
                       </td>
+
+                      {/* Action */}
                       <td className="px-6 py-4 text-right">
                         <Link href={`/admin-dashboard/bookings/${booking?.id}`}>
-                          <Button className="py-1 rounded-xl">
-                            <Eye /> View
+                          <Button variant="outline" className="h-8 px-3 flex items-center gap-2 rounded-xl text-xs font-bold hover:bg-[#2596be] hover:text-white transition-all">
+                            <Eye size={14} /> View
                           </Button>
                         </Link>
                       </td>
@@ -226,17 +212,17 @@ const AdminBookingPage = () => {
                 ) : (
                   <tr>
                     <td
-                      colSpan={5}
-                      className="px-6 py-12 text-center text-slate-400 text-sm"
+                      colSpan={7}
+                      className="px-6 py-12 text-center text-slate-400 text-sm font-bold italic"
                     >
-                      No bookings found yet.
+                      No bookings found.
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
