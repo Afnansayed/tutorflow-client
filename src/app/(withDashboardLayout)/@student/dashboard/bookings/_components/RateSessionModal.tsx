@@ -12,8 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useCreateReviewMutation } from '@/components/Redux/RTK/reviewApi';
-
+import { createReviewAction } from '@/actions/createReviewActions';
 interface RateSessionProps {
   bookingId: string | undefined;
 }
@@ -22,7 +21,7 @@ const RateSessionModal = ({ bookingId }: RateSessionProps) => {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const [createReview, { isLoading }] = useCreateReviewMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -36,20 +35,27 @@ const RateSessionModal = ({ bookingId }: RateSessionProps) => {
       return toast.error('Please select a star rating');
     }
 
+    setIsLoading(true);
     try {
       const payload = {
         booking_id: bookingId,
         rating: rating,
         comment: data.comment,
       };
+      const response = await createReviewAction(payload);
 
-      await createReview(payload).unwrap();
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
       toast.success('Thank you for your feedback!');
       setOpen(false);
       reset();
       setRating(0);
     } catch (error: any) {
-      toast.error(error?.data?.message || 'Failed to submit review');
+      toast.error(error?.message || 'Failed to submit review');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -70,13 +76,11 @@ const RateSessionModal = ({ bookingId }: RateSessionProps) => {
             How was your session?
           </DialogTitle>
           <p className="text-slate-500 text-sm mt-2 font-medium">
-            Your feedback helps our tutors improve and helps other students
-            choose.
+            Your feedback helps our tutors improve and helps other students choose.
           </p>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6">
-          {/* Star Rating Interaction */}
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-2">
               {[1, 2, 3, 4, 5].map(star => (
@@ -104,7 +108,6 @@ const RateSessionModal = ({ bookingId }: RateSessionProps) => {
             </p>
           </div>
 
-          {/* Comment Box */}
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
               <MessageSquare size={12} /> Share your experience
@@ -121,7 +124,6 @@ const RateSessionModal = ({ bookingId }: RateSessionProps) => {
             )}
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button
               type="button"
