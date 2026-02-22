@@ -16,9 +16,8 @@ import Link from 'next/link';
 const ContactPage = () => {
   return (
     <div className="min-h-screen bg-secondary">
-      {/* --- HEADER SECTION --- */}
+{/* header */}
       <section className="relative pt-16 pb-12 overflow-hidden">
-        {/* Background Glow to blend with secondary */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_top_rgba(37,150,190,0.08),transparent_60%)]" />
 
         <div className="container-max px-6 relative z-10 text-center">
@@ -38,10 +37,10 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* --- MAIN CONTENT SECTION --- */}
+      {/* --- content --- */}
       <section className="container-max px-6 pb-24">
         <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* LEFT SIDE: Contact Info (Elevated White Cards) */}
+          {/* contact info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -125,7 +124,7 @@ const ContactPage = () => {
             </div>
           </motion.div>
 
-          {/* RIGHT SIDE: Contact Form (Clean Floating Form) */}
+          {/* rigth content */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}

@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Minus, Search, MessageCircle, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { Plus, Minus} from 'lucide-react';
 
 const faqs = [
   {
