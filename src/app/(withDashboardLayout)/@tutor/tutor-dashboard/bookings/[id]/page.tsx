@@ -1,14 +1,8 @@
-'use client';
-
-import { useGetTutorBookingByIdQuery } from '@/components/Redux/RTK/bookingsApi';
 import { Booking } from '@/type/booking.type';
-import { useParams } from 'next/navigation';
-import { motion } from 'framer-motion';
+// framer-motion সরিয়ে দেওয়া হয়েছে কারণ এটি সার্ভার কম্পোনেন্টে চলে না
 import {
   Calendar,
-  Clock,
   User,
-  Mail,
   Tag,
   DollarSign,
   ExternalLink,
@@ -20,39 +14,37 @@ import {
   ShieldCheck,
   CreditCard,
   FileText,
+  Clock,
 } from 'lucide-react';
 import Link from 'next/link';
 import { timeConverter } from '@/utils/timeConverter';
 import UpdateBookingStatusModal from '../_components/UpdateBookingStatus';
 import BookingReview from '../_components/BookingReview';
+import { bookingService } from '@/service/booking.service';
 
-const TutorBookingDetails = () => {
-  const { id } = useParams();
-  const { data: bookingResponse, isLoading } = useGetTutorBookingByIdQuery(
-    id as string
-  );
-  const booking: Booking = bookingResponse?.data;
+// ১. params এখন একটি Promise (Next.js 15 নিয়ম অনুযায়ী)
+const TutorBookingDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
 
-  if (isLoading)
-    return (
-      <div className="h-[80vh] flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-slate-100 border-t-[#2596be] rounded-full animate-spin" />
-      </div>
-    );
+  const result = await bookingService.getBookingById(id);
+  const booking: Booking = result.data?.data;
+  const error = result.error;
 
-  if (!booking)
+  if (error || !booking)
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
         <div className="p-4 bg-red-50 text-red-400 rounded-full">
           <Tag size={40} />
         </div>
-        <p className="font-bold text-slate-400">Booking not found!</p>
+        <p className="font-bold text-slate-400">
+          {error?.message || 'Booking not found!'}
+        </p>
       </div>
     );
 
   return (
-    <div className="py-6  min-h-screen">
-      <div className="max-w-5xl mx-auto ">
+    <div className="py-6 min-h-screen">
+      <div className="max-w-5xl mx-auto px-4 lg:px-0">
         {/* Breadcrumb & Navigation */}
         <div className="flex items-center justify-between mb-8">
           <Link
@@ -74,11 +66,7 @@ const TutorBookingDetails = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Side: Booking & Student Profile */}
           <div className="lg:col-span-2 space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm relative overflow-hidden"
-            >
+            <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm relative overflow-hidden">
               {/* Decorative Background Icon */}
               <div className="absolute -right-10 -top-10 text-slate-50 opacity-10">
                 <ShieldCheck size={200} />
@@ -111,7 +99,7 @@ const TutorBookingDetails = () => {
                           <img
                             src={booking.student.image}
                             className="w-full h-full object-cover"
-                            alt=""
+                            alt="student"
                           />
                         ) : (
                           <User className="w-full h-full p-4 text-slate-300" />
@@ -119,7 +107,7 @@ const TutorBookingDetails = () => {
                       </div>
                       <div>
                         <p className="font-black text-slate-800 leading-tight">
-                          {booking.student?.name}
+                          {booking.student?.name || "N/A"}
                         </p>
                         <p className="text-slate-500 text-xs font-medium mt-1 truncate max-w-[140px]">
                           {booking.student?.email}
@@ -158,13 +146,10 @@ const TutorBookingDetails = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Session Link Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+            <div
               className={`p-1 rounded-[2rem] ${booking.session_link ? 'bg-gradient-to-r from-[#2596be] to-blue-400' : 'bg-slate-100'}`}
             >
               <div className="bg-white rounded-[1.9rem] p-6 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -197,19 +182,15 @@ const TutorBookingDetails = () => {
                   </div>
                 )}
               </div>
-            </motion.div>
+            </div>
+            
             {/* Review */}
             <BookingReview review={booking?.review} isButton={false} />
           </div>
 
           {/* Right Side: Payment & Status Update */}
           <div className="space-y-6">
-            {/* Payment & Status Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden"
-            >
+            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-slate-50 bg-slate-50/50">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                   Financial Summary
@@ -256,7 +237,7 @@ const TutorBookingDetails = () => {
                   currentStatus={booking.status}
                 />
               </div>
-            </motion.div>
+            </div>
 
             {/* Simple Tip/Info */}
             <div className="p-6 bg-[#2596be]/5 rounded-[2rem] border border-[#2596be]/10">
