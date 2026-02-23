@@ -80,7 +80,7 @@ const ScheduleManagement = async () => {
 
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <UpdateScheduleModal schedule_id={item.id} />
+                          <UpdateScheduleModal schedule={item} />
                           <DeleteScheduleModal
                             scheduleId={item.id}
                             day={item.day_of_week}

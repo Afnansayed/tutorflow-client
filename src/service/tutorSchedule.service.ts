@@ -3,27 +3,6 @@ import { cookies } from 'next/headers';
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
 export const tutorScheduleService = {
-  // ২. Update Schedule
-  updateSchedule: async function (id: string, data: any) {
-    const cookieStore = await cookies();
-    try {
-      const res = await fetch(`${API_URL}/tutor-schedule/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: cookieStore.toString(),
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || 'Failed to update schedule');
-      return { data: result, error: null };
-    } catch (err: any) {
-      return { data: null, error: { message: err.message || 'Something Went Wrong' } };
-    }
-  },
-
   // ৩. Update Availability Status
   updateScheduleAvailability: async function (id: string, data: any) {
     const cookieStore = await cookies();

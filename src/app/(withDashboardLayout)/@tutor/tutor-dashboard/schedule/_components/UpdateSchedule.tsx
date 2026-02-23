@@ -1,14 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Loader2, Clock, Calendar, Edit3 } from 'lucide-react';
-import {
-  useGetMyScheduleByIdQuery,
-  useUpdateScheduleMutation,
-} from '@/components/Redux/RTK/scheduleApi';
-import { TutorSchedule } from '@/type';
+
 
 import {
   Dialog,
@@ -17,6 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { updateScheduleAction } from '@/actions/schedule/updateScheduleAction';
+import { TutorSchedule } from '@/type/booking.type';
 
 enum DaysOfWeek {
   SUNDAY = 'SUNDAY',
@@ -28,23 +27,22 @@ enum DaysOfWeek {
   SATURDAY = 'SATURDAY',
 }
 
+
 interface UpdateScheduleProps {
-  schedule_id: string;
+  schedule: TutorSchedule; 
 }
 
-const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
+const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
   const [open, setOpen] = useState(false);
-  const [updateSchedule, { isLoading }] = useUpdateScheduleMutation();
-  const { data: scheduleResponse } = useGetMyScheduleByIdQuery(schedule_id);
-
-  const schedule = scheduleResponse?.data;
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TutorSchedule>({
+  } = useForm({
     defaultValues: schedule,
   });
 
@@ -55,6 +53,7 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
   }, [open, schedule, reset]);
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     try {
       const payload = {
         day_of_week: data.day_of_week,
@@ -62,11 +61,19 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
         end_time: data.end_time,
       };
 
-      await updateSchedule({ id: schedule.id, data: payload }).unwrap();
-      toast.success('Schedule updated successfully!');
-      setOpen(false);
-    } catch (error: any) {
-      toast.error(error?.data?.message || 'Update failed');
+      const res = await updateScheduleAction(schedule.id, payload);
+
+      if (res.success) {
+        toast.success('Schedule updated successfully!');
+        setOpen(false);
+        router.refresh();
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,7 +97,6 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-          {/* Day of Week */}
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
               <Calendar size={12} /> Select Day
@@ -108,7 +114,6 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            {/* Start Time */}
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
                 <Clock size={12} /> Start Time
@@ -116,11 +121,10 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
               <input
                 type="time"
                 {...register('start_time', { required: 'Required' })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all cursor-pointer"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all"
               />
             </div>
 
-            {/* End Time */}
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
                 <Clock size={12} /> End Time
@@ -128,12 +132,11 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
               <input
                 type="time"
                 {...register('end_time', { required: 'Required' })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all cursor-pointer"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all"
               />
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="pt-4 flex gap-3">
             <button
               type="button"
@@ -143,15 +146,11 @@ const UpdateScheduleModal = ({ schedule_id }: UpdateScheduleProps) => {
               Cancel
             </button>
             <button
-              disabled={isLoading}
+              disabled={loading}
               type="submit"
-              className="flex-[2] py-3 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-2xl font-bold text-sm transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2 disabled:opacity-70"
+              className="flex-[2] py-3 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-2xl font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-70"
             >
-              {isLoading ? (
-                <Loader2 className="animate-spin" size={18} />
-              ) : (
-                'Save Changes'
-              )}
+              {loading ? <Loader2 className="animate-spin" size={18} /> : 'Save Changes'}
             </button>
           </div>
         </form>
