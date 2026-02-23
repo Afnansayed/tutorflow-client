@@ -74,27 +74,4 @@ export const authService = {
       return { data: null, error: { message: 'Something Went Wrong' } };
     }
   },
-
-  // ৪. প্রোফাইল আপডেট করা
-  updateMyProfile: async function (profileData: any) {
-    const cookieStore = await cookies();
-    try {
-      const res = await fetch(`${API_URL}/users/me`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: cookieStore.toString(),
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to update profile');
-      }
-      const data = await res.json();
-      return { data: data, error: null };
-    } catch (err) {
-      return { data: null, error: { message: 'Something Went Wrong' } };
-    }
-  },
 };
