@@ -1,14 +1,10 @@
-'use client';
-
-import { useGetAllReviewTutorQuery } from '@/components/Redux/RTK/reviewApi';
+import { reviewService } from '@/service/review.service';
 import { Review } from '@/type';
-import { motion } from 'framer-motion';
 import { Star, User, MessageCircle, Calendar } from 'lucide-react';
 
-const TutorReviewManagement = () => {
-  const { data: reviewResponse, isLoading } =
-    useGetAllReviewTutorQuery(undefined);
-  const reviews: Review[] = reviewResponse?.data || [];
+const TutorReviewManagement = async () => {
+  const response = await reviewService.getAllReviewTutor();
+  const reviews: Review[] = response?.data?.data || [];
 
   return (
     <div className="py-6 min-h-screen">
@@ -23,12 +19,8 @@ const TutorReviewManagement = () => {
           </p>
         </div>
 
-        {/* Table  */}
-        <motion.div
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-[1rem] overflow-hidden border border-slate-200 shadow-sm"
-        >
+        {/* Table */}
+        <div className="bg-white rounded-[1rem] overflow-hidden border border-slate-200 shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -49,17 +41,8 @@ const TutorReviewManagement = () => {
               </thead>
 
               <tbody className="divide-y divide-slate-100">
-                {isLoading ? (
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="px-6 py-12 text-center text-slate-400 text-sm font-medium"
-                    >
-                      Loading reviews...
-                    </td>
-                  </tr>
-                ) : reviews.length > 0 ? (
-                  reviews.map(review => (
+                {reviews.length > 0 ? (
+                  reviews.map((review) => (
                     <tr
                       key={review.id}
                       className="hover:bg-slate-50/50 transition-colors group"
@@ -68,17 +51,11 @@ const TutorReviewManagement = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl bg-slate-100 overflow-hidden border border-slate-200 shadow-sm">
-                            {review.student?.image ? (
-                              <img
-                                src={review.student.image}
-                                alt={review.student.name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                <User size={20} />
-                              </div>
-                            )}
+                            <img
+                              src={review.student?.image || '/avatar.png'}
+                              alt={review.student?.name}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                           <span className="text-sm font-bold text-slate-900">
                             {review.student?.name}
@@ -148,7 +125,7 @@ const TutorReviewManagement = () => {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

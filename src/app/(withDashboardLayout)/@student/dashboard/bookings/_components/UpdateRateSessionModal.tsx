@@ -12,7 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useUpdateReviewMutation } from '@/components/Redux/RTK/reviewApi';
+import { updateReviewAction } from '@/actions/reviews/updateReviewAction';
+
 
 interface UpdateReviewProps {
   reviewId: string;
@@ -28,7 +29,7 @@ const UpdateReviewModal = ({
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(currentRating);
   const [hover, setHover] = useState(0);
-  const [updateReview, { isLoading }] = useUpdateReviewMutation();
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   const {
     register,
@@ -47,17 +48,25 @@ const UpdateReviewModal = ({
   }, [open, currentRating]);
 
   const onSubmit = async (data: any) => {
+    setIsSubmitting(true);
     try {
       const payload = {
         rating: rating,
         comment: data.comment,
       };
 
-      await updateReview({ id: reviewId, data: payload }).unwrap();
-      toast.success('Review updated successfully!');
-      setOpen(false);
+      const res = await updateReviewAction(reviewId, payload);
+      
+      if (res.success) {
+        toast.success('Review updated successfully!');
+        setOpen(false);
+      } else {
+        toast.error(res.message || 'Failed to update review');
+      }
     } catch (error: any) {
-      toast.error(error?.data?.message || 'Failed to update review');
+      toast.error('Something went wrong');
+    } finally {
+      setIsSubmitting(false); 
     }
   };
 
@@ -83,7 +92,6 @@ const UpdateReviewModal = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6">
-          {/* Star Rating Interaction */}
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-2">
               {[1, 2, 3, 4, 5].map(star => (
@@ -111,7 +119,6 @@ const UpdateReviewModal = ({
             </p>
           </div>
 
-          {/* Comment Box */}
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
               <MessageSquare size={12} /> Your Experience
@@ -130,7 +137,6 @@ const UpdateReviewModal = ({
             )}
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button
               type="button"
@@ -140,11 +146,11 @@ const UpdateReviewModal = ({
               Cancel
             </button>
             <button
-              disabled={isLoading}
+              disabled={isSubmitting} // isLoading এর বদলে isSubmitting
               type="submit"
               className="flex-[2] py-4 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-2xl font-bold text-sm transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2 disabled:opacity-70"
             >
-              {isLoading ? (
+              {isSubmitting ? (
                 <Loader2 className="animate-spin" size={18} />
               ) : (
                 'Save Update'
