@@ -78,4 +78,23 @@ export const tutorService = {
       return { data: null, error: { message: 'Something Went Wrong' } };
     }
   },
+
+  getMyProfile: async function () {
+    const cookieStore = await cookies();
+    try {
+      const res = await fetch(`${API_URL}/tutor-profile/me`, {
+        next: { tags: ['tutors'] },
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+      });
+
+      if (!res.ok) throw new Error('Failed to fetch profile');
+      
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: 'Something Went Wrong' } };
+    }
+  },
 };
