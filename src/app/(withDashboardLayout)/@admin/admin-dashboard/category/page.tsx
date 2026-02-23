@@ -1,26 +1,17 @@
-'use client';
 
-import { useGetCategoriesQuery } from '@/components/Redux/RTK/categoryApi';
-import { Category } from '@/type';
-import { motion } from 'framer-motion';
-import {
-  Plus,
-  Edit3,
-  Trash2,
-  Calendar,
-  Hash,
-  Image as ImageIcon,
-} from 'lucide-react';
+import { categoryService } from "@/service/categories.service";
+import { Category } from "@/type";
+import { Plus, Edit3, Calendar, Hash, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 
-const CategoryPage = () => {
-  const { data: categoryResponse, isLoading } =
-    useGetCategoriesQuery(undefined);
-  const categories: Category[] = categoryResponse?.data || [];
+const CategoryPage = async () => {
+  const response = await categoryService.getCategories();
+  const categories: Category[] = response?.data?.data || [];
 
   return (
-    <div className="py-6 bg-[#f8fafc] min-h-screen">
-      <div className="max-w-7xl mx-auto">
+    <div className="py-6 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 md:px-0">
+        {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <div>
             <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
@@ -35,17 +26,14 @@ const CategoryPage = () => {
             <Link href={'/admin-dashboard/category/create-new'}>
               <button className="flex items-center gap-2 px-5 py-2.5 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95">
                 <Plus size={18} />
-                <span className="hidden sm:inline">Add New</span>
+                <span>Add New</span>
               </button>
             </Link>
           </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm"
-        >
+        {/* Categories Table */}
+        <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -69,17 +57,8 @@ const CategoryPage = () => {
               </thead>
 
               <tbody className="divide-y divide-slate-100">
-                {isLoading ? (
-                  <tr>
-                    <td
-                      colSpan={5}
-                      className="px-6 py-12 text-center text-slate-400 text-sm font-medium"
-                    >
-                      Loading data...
-                    </td>
-                  </tr>
-                ) : categories.length > 0 ? (
-                  categories.map(category => (
+                {categories.length > 0 ? (
+                  categories.map((category) => (
                     <tr
                       key={category.id}
                       className="hover:bg-slate-50/50 transition-colors group"
@@ -89,7 +68,7 @@ const CategoryPage = () => {
                           {category.thumbnail ? (
                             <img
                               src={category.thumbnail}
-                              alt=""
+                              alt={category.name}
                               className="w-full h-full object-cover"
                             />
                           ) : (
@@ -119,7 +98,7 @@ const CategoryPage = () => {
                           <Link
                             href={`/admin-dashboard/category/${category.id}`}
                           >
-                            <button className="p-2 hover:bg-blue-50 text-slate-400 hover:text-primary transition-all rounded-lg">
+                            <button className="p-2 hover:bg-blue-50 text-slate-400 hover:text-[#2596be] transition-all rounded-lg">
                               <Edit3 size={16} />
                             </button>
                           </Link>
@@ -131,7 +110,7 @@ const CategoryPage = () => {
                   <tr>
                     <td
                       colSpan={5}
-                      className="px-6 py-12 text-center text-slate-400 text-sm"
+                      className="px-6 py-12 text-center text-slate-400 text-sm font-medium"
                     >
                       No categories found.
                     </td>
@@ -140,7 +119,7 @@ const CategoryPage = () => {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
