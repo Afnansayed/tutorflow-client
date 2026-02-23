@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Loader2, Trash2, AlertTriangle } from 'lucide-react';
-import { useDeleteScheduleMutation } from '@/components/Redux/RTK/scheduleApi';
+
 
 import {
   Dialog,
@@ -12,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { deleteScheduleAction } from '@/actions/schedule/deleteScheduleAction';
 
 interface DeleteScheduleProps {
   scheduleId: string;
@@ -25,15 +27,25 @@ const DeleteScheduleModal = ({
   time,
 }: DeleteScheduleProps) => {
   const [open, setOpen] = useState(false);
-  const [deleteSchedule, { isLoading }] = useDeleteScheduleMutation();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
-      await deleteSchedule(scheduleId).unwrap();
-      toast.success('Schedule slot deleted successfully!');
-      setOpen(false);
-    } catch (error: any) {
-      toast.error(error?.data?.message || 'Delete failed');
+      const res = await deleteScheduleAction(scheduleId);
+
+      if (res.success) {
+        toast.success('Schedule slot deleted successfully!');
+        setOpen(false);
+        router.refresh(); 
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,12 +65,12 @@ const DeleteScheduleModal = ({
           <DialogTitle className="text-xl font-bold text-slate-800">
             Are you sure?
           </DialogTitle>
-          <p className="text-slate-500 text-sm mt-2 font-medium">
+          <div className="text-slate-500 text-sm mt-2 font-medium">
             You are about to delete the slot for{' '}
             <span className="text-slate-900 font-bold capitalize">{day}</span>{' '}
             at <span className="text-slate-900 font-bold">{time}</span>. This
             action cannot be undone.
-          </p>
+          </div>
         </DialogHeader>
 
         <div className="flex gap-3 mt-8">
@@ -70,11 +82,11 @@ const DeleteScheduleModal = ({
             No, Keep it
           </button>
           <button
-            disabled={isLoading}
+            disabled={loading}
             onClick={handleDelete}
             className="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-bold text-sm transition-all shadow-lg shadow-red-100 flex items-center justify-center gap-2 disabled:opacity-70"
           >
-            {isLoading ? (
+            {loading ? (
               <Loader2 className="animate-spin" size={18} />
             ) : (
               'Yes, Delete'

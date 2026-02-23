@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
 export const tutorScheduleService = {
-  // ৩. Update Availability Status
+  //  Update Availability Status
   updateScheduleAvailability: async function (id: string, data: any) {
     const cookieStore = await cookies();
     try {
@@ -40,23 +40,9 @@ export const tutorScheduleService = {
     }
   },
 
-  // ৫. Get Schedule By ID
-  getMyScheduleById: async function (id: string) {
-    const cookieStore = await cookies();
-    try {
-      const res = await fetch(`${API_URL}/tutor-schedule/${id}`, {
-        next: { tags: ['tutor-schedule'] },
-        headers: { Cookie: cookieStore.toString() },
-      });
-      if (!res.ok) throw new Error('Failed to fetch schedule details');
-      const data = await res.json();
-      return { data, error: null };
-    } catch (err) {
-      return { data: null, error: { message: 'Something Went Wrong' } };
-    }
-  },
 
-  // ৬. Get Schedule By Tutor User ID (For Students/Public)
+
+  //  Get Schedule By Tutor User ID (For Students/Public) not use 
   getMyScheduleByTutorUserId: async function (id: string) {
     try {
       const res = await fetch(`${API_URL}/tutor-schedule/${id}/user`, {
@@ -67,22 +53,6 @@ export const tutorScheduleService = {
       return { data, error: null };
     } catch (err) {
       return { data: null, error: { message: 'Something Went Wrong' } };
-    }
-  },
-
-  // ৭. Delete Schedule
-  deleteSchedule: async function (id: string) {
-    const cookieStore = await cookies();
-    try {
-      const res = await fetch(`${API_URL}/tutor-schedule/${id}`, {
-        method: 'DELETE',
-        headers: { Cookie: cookieStore.toString() },
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || 'Failed to delete schedule');
-      return { data: result, error: null };
-    } catch (err: any) {
-      return { data: null, error: { message: err.message || 'Something Went Wrong' } };
     }
   },
 };
