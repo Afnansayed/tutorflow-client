@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Upload, X, Loader2, PlusCircle, CheckCircle2 } from 'lucide-react';
+import { Upload, X, Loader2, PlusCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { imageUpload } from '@/lib/imageUpload';
-import { useCreateCategoryMutation } from '@/components/Redux/RTK/categoryApi';
+
+import { useRouter } from 'next/navigation';
+import { createCategoryAction } from '@/actions/categories/createCategoryAction';
 
 interface CategoryFormInputs {
   name: string;
@@ -14,9 +16,9 @@ interface CategoryFormInputs {
 }
 
 const CreateCategoryForm = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
-  const [createCategory] = useCreateCategoryMutation();
 
   const {
     register,
@@ -38,22 +40,24 @@ const CreateCategoryForm = () => {
 
     try {
       const imageUrl = await imageUpload(data.thumbnail[0]);
+      
       const payload = {
         name: data.name,
         sub_code: data.sub_code,
         thumbnail: imageUrl,
       };
-
-      console.log('Final Submission Data:', payload);
-
-      const res = await createCategory(payload).unwrap();
-      //here rest of the logic
-
-      toast.success('Category created successfully!', { id: toastId });
-      reset();
-      setPreview(null);
+      const res = await createCategoryAction(payload);
+      if (res.success) {
+        toast.success('Category created successfully!', { id: toastId });
+        reset();
+        setPreview(null);
+        router.push('/admin-dashboard/category'); 
+        router.refresh(); 
+      } else {
+        toast.error(res.message, { id: toastId });
+      }
     } catch (error: any) {
-      toast.error(error.message || 'Something went wrong', { id: toastId });
+      toast.error('Something went wrong during creation', { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -71,7 +75,7 @@ const CreateCategoryForm = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Name  */}
+        {/* Category Name */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">
             Category Name
@@ -79,16 +83,14 @@ const CreateCategoryForm = () => {
           <input
             {...register('name', { required: 'Name is required' })}
             placeholder="e.g. Derivation"
-            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-primary/50 focus:bg-white transition-all font-medium"
+            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:border-[#2596be]/50 focus:bg-white transition-all font-medium"
           />
           {errors.name && (
-            <p className="text-red-400 text-xs font-bold">
-              {errors.name.message}
-            </p>
+            <p className="text-red-400 text-xs font-bold">{errors.name.message}</p>
           )}
         </div>
 
-        {/* Sub Code  */}
+        {/* Subject Code */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">
             Subject Code
@@ -96,16 +98,14 @@ const CreateCategoryForm = () => {
           <input
             {...register('sub_code', { required: 'Sub code is required' })}
             placeholder="e.g. DERI_123"
-            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-primary/50 focus:bg-white transition-all font-medium uppercase"
+            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:border-[#2596be]/50 focus:bg-white transition-all font-medium uppercase"
           />
           {errors.sub_code && (
-            <p className="text-red-400 text-xs font-bold">
-              {errors.sub_code.message}
-            </p>
+            <p className="text-red-400 text-xs font-bold">{errors.sub_code.message}</p>
           )}
         </div>
 
-        {/* Thumbnail Upload  */}
+        {/* Thumbnail Upload */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">
             Thumbnail Image
@@ -113,7 +113,7 @@ const CreateCategoryForm = () => {
 
           <div className="relative group">
             {!preview ? (
-              <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-200 rounded-[1rem] cursor-pointer bg-slate-50 hover:bg-slate-100/50 hover:border-primary/30 transition-all">
+              <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-200 rounded-[1rem] cursor-pointer bg-slate-50 hover:bg-slate-100/50 hover:border-[#2596be]/30 transition-all">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <Upload className="w-8 h-8 text-slate-300 mb-3" />
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-tight">
@@ -132,11 +132,7 @@ const CreateCategoryForm = () => {
               </label>
             ) : (
               <div className="relative w-full h-48 rounded-[1rem] overflow-hidden border border-slate-200">
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                />
+                <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                 <button
                   type="button"
                   onClick={() => {
@@ -151,9 +147,7 @@ const CreateCategoryForm = () => {
             )}
           </div>
           {errors.thumbnail && (
-            <p className="text-red-400 text-xs font-bold">
-              {errors.thumbnail.message}
-            </p>
+            <p className="text-red-400 text-xs font-bold">{errors.thumbnail.message}</p>
           )}
         </div>
 
@@ -161,12 +155,12 @@ const CreateCategoryForm = () => {
         <button
           disabled={loading}
           type="submit"
-          className="w-full py-4 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-2xl font-bold text-sm transition-all shadow-md shadow-primary/10 active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
+          className="w-full py-4 bg-[#2596be] hover:bg-[#1e7da0] text-white rounded-2xl font-bold text-sm transition-all shadow-md active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
               <Loader2 className="animate-spin" size={20} />
-              Processing...
+              Creating...
             </>
           ) : (
             <>
