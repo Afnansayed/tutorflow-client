@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
 export const authService = {
-  // ১. সকল ইউজার গেট করা
+  // Fetch all users, optionally filtered by role
   getAllUser: async function (role?: string) {
     const cookieStore = await cookies();
     try {
@@ -29,9 +29,7 @@ export const authService = {
       return { data: null, error: { message: 'Something Went Wrong' } };
     }
   },
-
-
-  // ৩. নিজের প্রোফাইল গেট করা
+  // Fetch the profile of the currently authenticated user
   getMyProfile: async function () {
     const cookieStore = await cookies();
     try {

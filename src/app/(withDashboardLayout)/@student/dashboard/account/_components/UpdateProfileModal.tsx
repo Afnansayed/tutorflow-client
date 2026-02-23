@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Loader2, User, Camera } from "lucide-react";
 import { imageUpload } from "@/lib/imageUpload";
 import { useRouter } from "next/navigation";
-import { updateMyProfileAction } from "@/actions/updateMyProfileAction";
+import { updateMyProfileAction } from "@/actions/auth/updateMyProfileAction";
 
 
 export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { User, Shield, Edit, Users, GraduationCap } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { updateUserStatusAction } from "@/actions/updateUserStatusAction";
+import { updateUserStatusAction } from "@/actions/auth/updateUserStatusAction";
 import { UpdateStatusModal } from "./UpdateStatusModal";
 
 

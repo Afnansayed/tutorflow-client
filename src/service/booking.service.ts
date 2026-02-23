@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
 export const bookingService = {
-  // ১. Create Booking (POST)
+  // 1. Create Booking 
   createBooking: async function (data: any) {
     const cookieStore = await cookies();
     try {
@@ -25,7 +25,7 @@ export const bookingService = {
     }
   },
 
-  // ২. Update Booking Status (PATCH)
+  // 2. Update Booking Status 
   updateBookingStatus: async function (id: string, data: any) {
     const cookieStore = await cookies();
     try {
@@ -47,18 +47,18 @@ export const bookingService = {
     }
   },
 
-  // ৩. Get Bookings (Dynamic for Student/Tutor/Admin)
+  // 3. Get Bookings (Dynamic for Student/Tutor/Admin)
   getBookings: async function (role: 'student' | 'tutor' | 'admin' = 'admin') {
     const cookieStore = await cookies();
     
-    // রোল অনুযায়ী URL সেট করা
+    // role based endpoint selection
     let endpoint = '/booking';
     if (role === 'student') endpoint = '/booking/student';
     if (role === 'tutor') endpoint = '/booking/tutor';
 
     try {
       const res = await fetch(`${API_URL}${endpoint}`, {
-        next: { tags: ['bookings'] }, // Caching and revalidation
+        next: { tags: ['bookings'] }, 
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -73,7 +73,7 @@ export const bookingService = {
     }
   },
 
-  // ৪. Get Booking By ID
+  // 4. Get Booking By ID
   getBookingById: async function (id: string) {
     const cookieStore = await cookies();
     try {

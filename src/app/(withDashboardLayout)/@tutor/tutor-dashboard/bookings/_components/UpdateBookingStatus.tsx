@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { updateBookingStatusAction } from '@/actions/updateBookingStatusAction';
+import { updateBookingStatusAction } from '@/actions/bookings/updateBookingStatusAction';
 
 enum BookingStatus {
   CONFIRMED = 'CONFIRMED',
