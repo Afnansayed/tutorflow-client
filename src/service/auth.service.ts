@@ -30,28 +30,6 @@ export const authService = {
     }
   },
 
-  // ২. ইউজারের স্ট্যাটাস আপডেট করা
-  updateUserStatus: async function (userId: string, status: string) {
-    const cookieStore = await cookies();
-    try {
-      const res = await fetch(`${API_URL}/users/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: cookieStore.toString(),
-        },
-        body: JSON.stringify({ status }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to update status');
-      }
-      const data = await res.json();
-      return { data: data, error: null };
-    } catch (err) {
-      return { data: null, error: { message: 'Something Went Wrong' } };
-    }
-  },
 
   // ৩. নিজের প্রোফাইল গেট করা
   getMyProfile: async function () {
