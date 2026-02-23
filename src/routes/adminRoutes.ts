@@ -1,5 +1,5 @@
 import { Route } from '@/type';
-import { MessageCircleCode, NotebookPen, User } from 'lucide-react';
+import { Layers2, MessageCircleCode, NotebookPen, User } from 'lucide-react';
 
 export const adminRoutes: Route[] = [
   {
@@ -13,7 +13,7 @@ export const adminRoutes: Route[] = [
       {
         title: 'Category',
         url: '/admin-dashboard/category',
-        icon: User,
+        icon: Layers2,
       },
       {
         title: 'Bookings',
