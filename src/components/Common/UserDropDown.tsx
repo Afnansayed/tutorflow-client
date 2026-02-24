@@ -87,9 +87,8 @@ export default function UserDropdown() {
           title={isLoggedIn ? user?.name : ''} // Full name on hover
         >
           {isLoggedIn
-            ? `${user?.name?.substring(0, 8)}${
-                user?.name?.length && user?.name?.length > 8 ? '...' : ''
-              }`
+            ? `${user?.name?.substring(0, 8)}${user?.name?.length && user?.name?.length > 8 ? '...' : ''
+            }`
             : 'Sign in'}
         </button>
       </div>
@@ -118,7 +117,7 @@ export default function UserDropdown() {
                   </Link>
 
                   <Link
-                    href="/customer/my-orders"
+                    href="/dashboard/bookings"
                     className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
                     onClick={() => setIsOpen(false)}
                   >

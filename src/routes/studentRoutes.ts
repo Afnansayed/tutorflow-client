@@ -3,7 +3,7 @@ import { NotebookPen, User } from 'lucide-react';
 
 export const studentRoutes: Route[] = [
   {
-    title: 'Blog Management',
+    title: 'Student Dashboard',
     items: [
       {
         title: 'My Account',

@@ -1,5 +1,5 @@
 import { Route } from '@/type';
-import { MessageCircleCode, NotebookPen, User } from 'lucide-react';
+import { CalendarCheck2, MessageCircleCode, NotebookPen, User } from 'lucide-react';
 
 export const tutorRoutes: Route[] = [
   {
@@ -18,7 +18,7 @@ export const tutorRoutes: Route[] = [
       {
         title: 'Schedule',
         url: '/tutor-dashboard/schedule',
-        icon: User,
+        icon: CalendarCheck2,
       },
       {
         title: 'Reviews',

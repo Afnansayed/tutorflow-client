@@ -39,7 +39,7 @@ export const tutorService = {
       if (options?.revalidate) {
         config.next = { revalidate: options.revalidate };
       }
-      //add tags for revalidate
+      //revalidation tag
       config.next = { ...config.next, tags: ['tutors'] };
 
       const res = await fetch(url.toString(), {
@@ -90,7 +90,7 @@ export const tutorService = {
       });
 
       if (!res.ok) throw new Error('Failed to fetch profile');
-      
+
       const data = await res.json();
       return { data: data, error: null };
     } catch (err) {

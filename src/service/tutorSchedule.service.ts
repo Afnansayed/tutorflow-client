@@ -42,7 +42,7 @@ export const tutorScheduleService = {
 
 
 
-  //  Get Schedule By Tutor User ID (For Students/Public) 
+  //  Get Schedule By Tutor User ID (Public) 
   getMyScheduleByTutorUserId: async function (id: string) {
     try {
       const res = await fetch(`${API_URL}/tutor-schedule/${id}/user`, {

@@ -3,7 +3,7 @@ import { Layers2, MessageCircleCode, NotebookPen, User } from 'lucide-react';
 
 export const adminRoutes: Route[] = [
   {
-    title: 'User Management',
+    title: 'Admin Dashboard',
     items: [
       {
         title: 'Analytic',
