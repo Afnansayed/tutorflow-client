@@ -5,7 +5,6 @@ import SubjectCategories from '@/components/Home/SubjectCategories';
 import SuccessStories from '@/components/Home/SuccessStories';
 import UserFlow from '@/components/Home/UserFlow';
 import WhyChooseUs from '@/components/Home/WhyChooseUs';
-import { User } from 'lucide-react';
 
 export default function Home() {
   return (

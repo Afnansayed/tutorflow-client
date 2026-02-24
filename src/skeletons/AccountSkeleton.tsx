@@ -1,13 +1,12 @@
-import { User, Mail, Calendar, ShieldCheck } from 'lucide-react';
 
 const AccountSkeleton = () => {
   return (
     <div className="py-6 min-h-screen">
       <div className="max-w-4xl mx-auto px-4">
-        
+
         {/* Profile Header Card Skeleton */}
         <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-slate-100 relative overflow-hidden animate-pulse">
-          
+
           {/* Decorative Background Skeleton */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-full" />
 

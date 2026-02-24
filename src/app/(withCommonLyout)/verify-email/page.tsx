@@ -24,7 +24,7 @@ export default function VerifyEmailPage() {
     }
     setStatus('loading');
     try {
-      const { data, error } = await authClient.verifyEmail({
+      const { error } = await authClient.verifyEmail({
         query: { token },
       });
       if (error) {

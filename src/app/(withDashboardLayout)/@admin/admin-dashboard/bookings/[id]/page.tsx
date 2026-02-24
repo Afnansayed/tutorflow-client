@@ -6,7 +6,6 @@ import {
   DollarSign,
   ExternalLink,
   ArrowLeft,
-  CheckCircle2,
   Clock3,
   Video,
   ChevronRight,

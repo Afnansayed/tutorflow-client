@@ -33,8 +33,6 @@ const RegisterPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
   } = useForm<RegisterFormInputs>({
     defaultValues: {
       role: (roleParams === 'TUTOR' ? 'TUTOR' : 'STUDENT') as 'STUDENT' | 'TUTOR',

@@ -29,7 +29,7 @@ enum DaysOfWeek {
 
 
 interface UpdateScheduleProps {
-  schedule: TutorSchedule; 
+  schedule: TutorSchedule;
 }
 
 const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
@@ -41,7 +41,6 @@ const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm({
     defaultValues: schedule,
   });

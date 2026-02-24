@@ -25,7 +25,6 @@ const TutorProfileUpdateClient = ({ profile, categories }: any) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
   } = useForm<UpdateTutorInputs>({
     defaultValues: {
       bio: profile?.bio,
@@ -142,9 +141,8 @@ const TutorProfileUpdateClient = ({ profile, categories }: any) => {
               {categories.map((cat: any) => (
                 <label
                   key={cat.id}
-                  className={`flex items-center justify-between px-5 py-4 rounded-2xl border cursor-pointer transition-all ${
-                    selectedCategories.includes(cat.id) ? 'border-[#2596be]/30 bg-blue-50' : 'border-slate-100 bg-slate-50/50 hover:bg-slate-50'
-                  }`}
+                  className={`flex items-center justify-between px-5 py-4 rounded-2xl border cursor-pointer transition-all ${selectedCategories.includes(cat.id) ? 'border-[#2596be]/30 bg-blue-50' : 'border-slate-100 bg-slate-50/50 hover:bg-slate-50'
+                    }`}
                 >
                   <div className="flex flex-col">
                     <span className="text-sm font-bold text-slate-700">{cat.name}</span>

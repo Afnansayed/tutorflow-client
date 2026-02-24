@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, BookOpen, GraduationCap, Globe2 } from 'lucide-react';
 

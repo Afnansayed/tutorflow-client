@@ -20,7 +20,6 @@ interface ReviewProps {
 
 const BookingReview = ({
   review,
-  onRateClick,
   isButton,
   createBooking,
 }: ReviewProps) => {

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Send, Bell, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';

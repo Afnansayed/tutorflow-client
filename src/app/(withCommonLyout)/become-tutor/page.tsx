@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
-  CheckCircle2,
   Globe,
   Zap,
   ShieldCheck,

@@ -1,6 +1,6 @@
 import { reviewService } from '@/service/review.service';
 import { Review } from '@/type';
-import { Star, User, MessageCircle, Calendar } from 'lucide-react';
+import { Star, MessageCircle, Calendar } from 'lucide-react';
 
 const TutorReviewManagement = async () => {
   const response = await reviewService.getAllReviewTutor();

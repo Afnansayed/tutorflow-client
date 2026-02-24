@@ -1,4 +1,3 @@
-import { Eye, User, Calendar, Clock, DollarSign } from 'lucide-react';
 
 const BookingTableSkeleton = () => {
   // ৫টি রো (Row) তৈরি করার জন্য একটি অ্যারে

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Loader2, RefreshCcw, CheckCircle2, XCircle } from 'lucide-react';
-import { useUpdateScheduleAvailabilityMutation } from '@/components/Redux/RTK/scheduleApi';
+
 
 import {
   Dialog,
@@ -23,8 +23,7 @@ const ScheduleStatusModal = ({
   currentStatus,
 }: StatusChangeProps) => {
   const [open, setOpen] = useState(false);
-  const [updateSchedule, { isLoading }] =
-    useUpdateScheduleAvailabilityMutation();
+
 
   const handleStatusToggle = async () => {
     try {
@@ -33,7 +32,7 @@ const ScheduleStatusModal = ({
         isAvailable: !currentStatus,
       };
 
-      await updateSchedule({ id: scheduleId, data: payload }).unwrap();
+
       toast.success(
         `Slot is now ${!currentStatus ? 'Available' : 'Unavailable'}`
       );
@@ -65,13 +64,12 @@ const ScheduleStatusModal = ({
       <DialogContent className="sm:max-w-[380px] rounded-[2.5rem] p-8">
         <DialogHeader className="flex flex-col items-center text-center">
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
-              currentStatus
+            className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${currentStatus
                 ? 'bg-amber-50 text-amber-500'
                 : 'bg-emerald-50 text-emerald-500'
-            }`}
+              }`}
           >
-            <RefreshCcw size={32} className={isLoading ? 'animate-spin' : ''} />
+            <RefreshCcw size={32} />
           </div>
           <DialogTitle className="text-xl font-bold text-slate-800">
             Change Status?
@@ -96,19 +94,15 @@ const ScheduleStatusModal = ({
             Cancel
           </button>
           <button
-            disabled={isLoading}
             onClick={handleStatusToggle}
-            className={`flex-1 py-3 text-white rounded-2xl font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 ${
-              !currentStatus
+            className={`flex-1 py-3 text-white rounded-2xl font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 ${!currentStatus
                 ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-100'
                 : 'bg-[#2596be] hover:bg-[#1e7da0] shadow-blue-100'
-            }`}
+              }`}
           >
-            {isLoading ? (
-              <Loader2 className="animate-spin" size={18} />
-            ) : (
-              'Confirm'
-            )}
+
+            Confirm
+
           </button>
         </div>
       </DialogContent>
