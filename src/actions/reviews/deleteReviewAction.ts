@@ -5,7 +5,6 @@ import { revalidateTag } from 'next/cache';
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
-// Delete Review Action
 export async function deleteReviewAction(id: string) {
   const cookieStore = await cookies();
   try {
@@ -17,10 +16,10 @@ export async function deleteReviewAction(id: string) {
     });
 
     if (res.ok) {
-      revalidateTag('default','reviews');
+      revalidateTag('default', 'reviews');
       return { success: true };
     }
-    
+
     const result = await res.json();
     return { success: false, message: result.message || 'Failed to delete review' };
   } catch (err) {

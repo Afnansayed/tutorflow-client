@@ -5,7 +5,6 @@ import { revalidateTag } from 'next/cache';
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_API;
 
-//  Update Review Action
 export async function updateReviewAction(id: string, data: any) {
   const cookieStore = await cookies();
   try {
@@ -21,7 +20,7 @@ export async function updateReviewAction(id: string, data: any) {
     const result = await res.json();
 
     if (res.ok) {
-      revalidateTag('default','reviews'); 
+      revalidateTag('default', 'reviews');
       return { success: true, data: result };
     }
     return { success: false, message: result.message || 'Failed to update review' };
