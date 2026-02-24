@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import {
   GraduationCap,
@@ -8,12 +7,7 @@ import {
   Twitter,
   Instagram,
   Linkedin,
-  Mail,
-  Phone,
-  ArrowRight,
-  Send,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation'; // রিফ্রেশ করার জন্য
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Loader2, Clock, Calendar, Plus } from 'lucide-react';
 
@@ -47,14 +47,13 @@ const CreateScheduleModal = () => {
   const onSubmit = async (data: CreateScheduleInputs) => {
     setLoading(true);
     try {
-      // সার্ভার অ্যাকশন কল করা হচ্ছে
       const res = await createScheduleAction(data);
 
       if (res.success) {
         toast.success('Schedule slot created successfully!');
         reset();
         setOpen(false);
-        router.refresh(); // UI আপডেট নিশ্চিত করতে
+        router.refresh();
       } else {
         toast.error(res.message);
       }

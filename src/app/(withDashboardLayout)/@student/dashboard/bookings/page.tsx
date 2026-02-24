@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Helper function for styling (Server Side-এ রাখা যাবে)
 const getStatusStyle = (status: string) => {
   switch (status.toLowerCase()) {
     case 'confirmed':
@@ -93,7 +92,7 @@ const StudentBookingPage = async () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-1 text-sm font-bold text-slate-700">
                           <DollarSign size={14} className="text-emerald-500" />
-                          {booking.total_price}
+                          {booking.total_price.toFixed(2)}
                         </div>
                       </td>
                       <td className="px-6 py-4">

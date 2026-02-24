@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { bookingService } from '@/service/booking.service'; // আপনার সার্ভিস পাথ
+import { bookingService } from '@/service/booking.service';
 import { Booking } from '@/type/booking.type';
 import { timeConverter } from '@/utils/timeConverter';
 import {
@@ -29,7 +29,6 @@ const getStatusStyle = (status: string) => {
 };
 
 const TutorBookingPage = async () => {
-  // ১. সরাসরি fetch সার্ভিস ব্যবহার করে ডাটা আনা
   const result = await bookingService.getBookings('tutor');
   const bookings: Booking[] = result.data?.data || [];
   const error = result.error;
@@ -132,7 +131,7 @@ const TutorBookingPage = async () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-1 text-sm font-bold text-slate-700">
                           <DollarSign size={14} className="text-emerald-500" />
-                          {booking.total_price}
+                          {booking.total_price.toFixed(2)}
                         </div>
                       </td>
 

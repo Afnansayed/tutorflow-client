@@ -1,6 +1,5 @@
 
 const BookingTableSkeleton = () => {
-  // ৫টি রো (Row) তৈরি করার জন্য একটি অ্যারে
   const skeletonRows = Array.from({ length: 5 });
 
   return (

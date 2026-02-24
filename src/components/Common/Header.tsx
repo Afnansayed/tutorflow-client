@@ -1,16 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   GraduationCap,
   ArrowRight,
   Search,
-  Globe,
   Menu,
   ChevronDown,
-  X,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';

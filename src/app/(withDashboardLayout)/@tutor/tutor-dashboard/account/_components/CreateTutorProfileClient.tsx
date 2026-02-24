@@ -62,8 +62,6 @@ const CreateTutorProfileClient = ({ categories }: { categories: any[] }) => {
         profile_picture: imageUrl,
         categoryIds: data.categoryIds,
       };
-
-      // সার্ভার অ্যাকশন কল
       const res = await createTutorAction(payload);
 
       if (res.success) {
@@ -100,11 +98,11 @@ const CreateTutorProfileClient = ({ categories }: { categories: any[] }) => {
                   <Upload className="text-slate-300" size={24} />
                 )}
               </div>
-              <input 
-                type="file" 
-                className="absolute inset-0 opacity-0 cursor-pointer" 
-                accept="image/*" 
-                {...register('thumbnail', { required: 'Image is required', onChange: handlePreview })} 
+              <input
+                type="file"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                accept="image/*"
+                {...register('thumbnail', { required: 'Image is required', onChange: handlePreview })}
               />
               {preview && (
                 <button
@@ -155,9 +153,8 @@ const CreateTutorProfileClient = ({ categories }: { categories: any[] }) => {
               {categories.map((cat) => (
                 <label
                   key={cat.id}
-                  className={`flex items-center justify-between px-5 py-4 rounded-2xl border cursor-pointer transition-all ${
-                    selectedCategories.includes(cat.id) ? 'border-[#2596be] bg-blue-50 shadow-sm' : 'border-slate-100 bg-slate-50/50 hover:bg-slate-50'
-                  }`}
+                  className={`flex items-center justify-between px-5 py-4 rounded-2xl border cursor-pointer transition-all ${selectedCategories.includes(cat.id) ? 'border-[#2596be] bg-blue-50 shadow-sm' : 'border-slate-100 bg-slate-50/50 hover:bg-slate-50'
+                    }`}
                 >
                   <div className="flex flex-col">
                     <span className="text-sm font-bold text-slate-700">{cat.name}</span>

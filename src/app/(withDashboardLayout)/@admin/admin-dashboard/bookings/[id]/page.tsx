@@ -16,15 +16,12 @@ import {
 import Link from 'next/link';
 import { timeConverter } from '@/utils/timeConverter';
 import { bookingService } from '@/service/booking.service';
-// পাথগুলো আপনার প্রজেক্ট অনুযায়ী চেক করে নিন
 import UpdateBookingStatusModal from '@/app/(withDashboardLayout)/@tutor/tutor-dashboard/bookings/_components/UpdateBookingStatus';
 import BookingReview from '@/app/(withDashboardLayout)/@tutor/tutor-dashboard/bookings/_components/BookingReview';
 
 const AdminBookingDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
-  // ১. Next.js 15+ নিয়ম অনুযায়ী params await করতে হয়
   const { id } = await params;
 
-  // ২. সরাসরি fetch সার্ভিস ব্যবহার করে ডাটা আনা
   const result = await bookingService.getBookingById(id);
   const booking: Booking = result.data?.data;
   const error = result.error;
@@ -214,7 +211,7 @@ const AdminBookingDetails = async ({ params }: { params: Promise<{ id: string }>
                   <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Total Amount</p>
                   <div className="flex items-center justify-center gap-1 text-4xl font-black text-slate-800">
                     <DollarSign size={28} className="text-emerald-500" />
-                    {booking.total_price}
+                    {booking.total_price.toFixed(2)}
                   </div>
                 </div>
 

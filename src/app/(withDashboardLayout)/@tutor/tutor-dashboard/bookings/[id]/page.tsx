@@ -1,5 +1,4 @@
 import { Booking } from '@/type/booking.type';
-// framer-motion সরিয়ে দেওয়া হয়েছে কারণ এটি সার্ভার কম্পোনেন্টে চলে না
 import {
   Calendar,
   User,
@@ -22,7 +21,6 @@ import UpdateBookingStatusModal from '../_components/UpdateBookingStatus';
 import BookingReview from '../_components/BookingReview';
 import { bookingService } from '@/service/booking.service';
 
-// ১. params এখন একটি Promise (Next.js 15 নিয়ম অনুযায়ী)
 const TutorBookingDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
@@ -183,7 +181,7 @@ const TutorBookingDetails = async ({ params }: { params: Promise<{ id: string }>
                 )}
               </div>
             </div>
-            
+
             {/* Review */}
             <BookingReview review={booking?.review} isButton={false} />
           </div>
@@ -203,7 +201,7 @@ const TutorBookingDetails = async ({ params }: { params: Promise<{ id: string }>
                   </p>
                   <div className="flex items-center justify-center gap-1 text-4xl font-black text-slate-800">
                     <DollarSign size={28} className="text-emerald-500" />
-                    {booking.total_price}
+                    {booking.total_price.toFixed(2)}
                   </div>
                 </div>
 
@@ -221,11 +219,10 @@ const TutorBookingDetails = async ({ params }: { params: Promise<{ id: string }>
                       <Clock size={14} /> Status
                     </span>
                     <span
-                      className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${
-                        booking.status === 'confirmed'
-                          ? 'bg-emerald-50 text-emerald-600'
-                          : 'bg-amber-50 text-amber-600'
-                      }`}
+                      className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${booking.status === 'confirmed'
+                        ? 'bg-emerald-50 text-emerald-600'
+                        : 'bg-amber-50 text-amber-600'
+                        }`}
                     >
                       {booking.status}
                     </span>

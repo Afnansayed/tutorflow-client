@@ -154,10 +154,10 @@ const StudentBookingDetails = async ({ params }: { params: { id: string } }) => 
                   <p className="text-slate-400 text-[10px] font-black uppercase mb-2">Amount Paid</p>
                   <div className="flex items-center justify-center gap-1 text-4xl font-black text-slate-800">
                     <DollarSign size={28} className="text-emerald-500" />
-                    {booking.total_price}
+                    {booking.total_price.toFixed(2)}
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-slate-400 font-bold flex items-center gap-2"><Clock size={14} /> Status</span>

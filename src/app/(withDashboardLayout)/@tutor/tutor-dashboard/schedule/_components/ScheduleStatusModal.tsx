@@ -27,7 +27,6 @@ const ScheduleStatusModal = ({
 
   const handleStatusToggle = async () => {
     try {
-      // আপনার দেওয়া পেলোড অনুযায়ী
       const payload = {
         isAvailable: !currentStatus,
       };
@@ -45,7 +44,6 @@ const ScheduleStatusModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {/* টেবিলের স্ট্যাটাস ব্যাজটিকেই বাটন হিসেবে ব্যবহার করা হয়েছে */}
         <button className="cursor-pointer active:scale-95 transition-transform">
           {currentStatus ? (
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 text-[11px] font-bold uppercase tracking-wider border border-emerald-100 hover:bg-emerald-100 transition-colors">
@@ -65,8 +63,8 @@ const ScheduleStatusModal = ({
         <DialogHeader className="flex flex-col items-center text-center">
           <div
             className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${currentStatus
-                ? 'bg-amber-50 text-amber-500'
-                : 'bg-emerald-50 text-emerald-500'
+              ? 'bg-amber-50 text-amber-500'
+              : 'bg-emerald-50 text-emerald-500'
               }`}
           >
             <RefreshCcw size={32} />
@@ -96,8 +94,8 @@ const ScheduleStatusModal = ({
           <button
             onClick={handleStatusToggle}
             className={`flex-1 py-3 text-white rounded-2xl font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 ${!currentStatus
-                ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-100'
-                : 'bg-[#2596be] hover:bg-[#1e7da0] shadow-blue-100'
+              ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-100'
+              : 'bg-[#2596be] hover:bg-[#1e7da0] shadow-blue-100'
               }`}
           >
 
