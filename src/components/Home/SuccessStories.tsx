@@ -36,7 +36,7 @@ export default function SuccessStories() {
   return (
     <section className="py-10 bg-white relative overflow-hidden">
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
-      
+
       <div className="container-max">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl text-left">
@@ -44,7 +44,7 @@ export default function SuccessStories() {
               Community Voices
             </Badge>
             <h2 className="text-4xl font-black tracking-tighter text-slate-900 leading-[1.1]">
-              Real Results from <br /> 
+              Real Results from <br />
               <span className="text-primary">Our Global Students</span>
             </h2>
           </div>
@@ -61,7 +61,7 @@ export default function SuccessStories() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className="group p-8 rounded-[2.5rem] bg-secondary border border-primary/10 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
+              className="group p-8 rounded-[1.5rem] bg-secondary border border-primary/10 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
             >
               <div className="mb-6 inline-flex p-3 rounded-2xl bg-secondary text-primary">
                 <Quote size={24} fill="currentColor" />
