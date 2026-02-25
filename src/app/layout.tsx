@@ -14,9 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  icons: {
-    icon: '/tutorflow-fav.png',
-  },
+  icons: '/tutorflow-fav.png',
   title: "TutorFlow",
   description: "TutorFlow is a platform that connects students with tutors. Find the best tutors for any subject, book classes, and track your progress.",
 };

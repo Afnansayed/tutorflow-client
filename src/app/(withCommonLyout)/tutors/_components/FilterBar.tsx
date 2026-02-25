@@ -2,12 +2,12 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
@@ -34,7 +34,7 @@ export const FilterBar = () => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between bg-primary/80 backdrop-blur-md p-2 rounded-sm md:rounded-full border border-slate-200 shadow-xl shadow-slate-100/50"
@@ -45,7 +45,7 @@ export const FilterBar = () => {
           <Search className="size-5" />
         </div>
         <input
-          placeholder="Search tutors by name, bio or skill..."
+          placeholder="Search tutors by name or skill..."
           className="w-full h-10 pl-12 pr-4 bg-white border-none rounded-[1.6rem] text-sm font-bold placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2596be]/20 transition-all"
           defaultValue={searchParams.get("search")?.toString()}
           onChange={(e) => handleSearch(e.target.value)}
@@ -59,8 +59,8 @@ export const FilterBar = () => {
           <span className="text-[10px] font-black uppercase tracking-widest text-white">Sort By</span>
         </div>
 
-        <Select 
-          defaultValue={searchParams.get("sortOrder") || "desc"} 
+        <Select
+          defaultValue={searchParams.get("sortOrder") || "desc"}
           onValueChange={handleSort}
         >
           <SelectTrigger className="h-10 w-full md:w-[180px] rounded-full border-slate-100 bg-white font-bold text-slate-700 shadow-sm focus:ring-[#2596be]/20">
