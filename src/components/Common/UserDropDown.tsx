@@ -79,11 +79,11 @@ export default function UserDropdown() {
       {/* Sign in button */}
       <div
         onClick={toggleDropdown}
-        className="hidden lg:flex gap-1.5 cursor-pointer"
+        className="flex gap-1.5 cursor-pointer"
       >
         <Image src={'/icon/i.svg'} alt="user icon" width={24} height={24} />
         <button
-          className="text-Black hover:text-primary transition-colors"
+          className="hidden sm:block text-Black hover:text-primary transition-colors"
           title={isLoggedIn ? user?.name : ''} // Full name on hover
         >
           {isLoggedIn

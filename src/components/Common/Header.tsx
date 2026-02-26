@@ -35,6 +35,7 @@ type NavLink =
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -139,14 +140,14 @@ export default function Header() {
           <div className="flex items-center gap-2 md:gap-4">
             <UserDropdown />
 
-            <Button className="bg-primary hover:bg-primary/90 text-white px-4 md:px-6 h-10 md:h-11 rounded-full font-bold shadow-lg shadow-primary/20 flex items-center gap-2 group text-sm md:text-base">
+            <Button className="hidden  bg-primary hover:bg-primary/90 text-white px-4 md:px-6 h-10 md:h-11 rounded-full font-bold shadow-lg shadow-primary/20 lg:flex items-center gap-2 group text-sm md:text-base">
               Join <span className="hidden sm:inline">Free</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
 
             {/* MOBILE MENU (Using shadcn Sheet) */}
             <div className="lg:hidden">
-              <Sheet>
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                   <Button
                     variant="ghost"
@@ -192,6 +193,7 @@ export default function Header() {
                         ) : (
                           <Link
                             href={link.path}
+                            onClick={() => setIsOpen(false)}
                             className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 font-bold text-slate-700 transition-colors"
                           >
                             {link.label}
@@ -203,15 +205,12 @@ export default function Header() {
                   </div>
 
                   <div className="absolute bottom-0 left-0 w-full p-6 bg-slate-50 border-t flex flex-col gap-3">
-                    <Button
-                      variant="outline"
-                      className="w-full h-12 rounded-2xl font-bold border-2"
-                    >
-                      Log In
-                    </Button>
-                    <Button className="w-full h-12 rounded-2xl font-bold bg-primary">
-                      Get Started
-                    </Button>
+
+                    <Link href="/register">
+                      <Button onClick={() => setIsOpen(false)} className="w-full h-12 rounded-2xl font-bold bg-primary">
+                        Get Started
+                      </Button>
+                    </Link>
                   </div>
                 </SheetContent>
               </Sheet>
