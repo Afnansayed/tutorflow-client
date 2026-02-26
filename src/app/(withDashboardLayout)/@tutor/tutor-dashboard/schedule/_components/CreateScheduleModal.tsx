@@ -115,6 +115,9 @@ const CreateScheduleModal = () => {
                 {...register('start_time', { required: 'Required' })}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all"
               />
+              {errors.start_time && (
+                <p className="text-red-500 text-[10px] ml-1 mt-1">{errors.start_time.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -126,6 +129,9 @@ const CreateScheduleModal = () => {
                 {...register('end_time', { required: 'Required' })}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all"
               />
+              {errors.end_time && (
+                <p className="text-red-500 text-[10px] ml-1 mt-1">{errors.end_time.message}</p>
+              )}
             </div>
           </div>
 

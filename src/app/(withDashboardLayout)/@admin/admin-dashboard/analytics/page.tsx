@@ -1,11 +1,11 @@
 import { analyticsService } from "@/service/analytics.service";
 import { Analytics } from "@/type";
-import { 
-  Users, 
-  UserCheck, 
-  CalendarCheck, 
-  DollarSign, 
-  ArrowUpRight, 
+import {
+  Users,
+  UserCheck,
+  CalendarCheck,
+  DollarSign,
+  ArrowUpRight,
   Clock,
   CheckCircle2,
   XCircle
@@ -28,7 +28,7 @@ const AnalyticsPage = async () => {
     { label: "Total Students", value: analytics.totalStudents, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
     { label: "Total Tutors", value: analytics.totalTutors, icon: UserCheck, color: "text-purple-600", bg: "bg-purple-50" },
     { label: "Total Bookings", value: analytics.totalBookings, icon: CalendarCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
-    { label: "Total Revenue", value: `$${analytics.totalRevenue}`, icon: DollarSign, color: "text-amber-600", bg: "bg-amber-50" },
+    { label: "Total Revenue", value: `$${analytics.totalRevenue.toFixed(2)}`, icon: DollarSign, color: "text-amber-600", bg: "bg-amber-50" },
   ];
 
   return (
@@ -81,15 +81,14 @@ const AnalyticsPage = async () => {
                     <tr key={booking.id} className="hover:bg-slate-50/30 transition-colors">
                       <td className="px-8 py-5">
                         <div className="flex flex-col">
-                          <span className="font-bold text-slate-800 text-sm">{booking?.student?.name|| "Student"}</span>
+                          <span className="font-bold text-slate-800 text-sm">{booking?.student?.name || "Student"}</span>
                           <span className="text-[11px] text-slate-400 font-medium">with {booking?.tutor?.user?.name || "Tutor"}</span>
                         </div>
                       </td>
                       <td className="px-8 py-5">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
-                          booking.status === 'COMPLETED' ? 'bg-emerald-50 text-emerald-600' : 
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${booking.status === 'COMPLETED' ? 'bg-emerald-50 text-emerald-600' :
                           booking.status === 'CANCELLED' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
-                        }`}>
+                          }`}>
                           {booking.status}
                         </span>
                       </td>
@@ -111,7 +110,7 @@ const AnalyticsPage = async () => {
             <div className="space-y-6">
               <div className="flex items-center justify-between p-4 bg-blue-50 rounded-2xl border border-blue-100">
                 <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-xl text-blue-600 shadow-sm"><Clock size={18}/></div>
+                  <div className="bg-white p-2 rounded-xl text-blue-600 shadow-sm"><Clock size={18} /></div>
                   <span className="text-sm font-bold text-slate-700">Confirmed</span>
                 </div>
                 <span className="text-lg font-black text-blue-700">{analytics.bookingStatus.CONFIRMED}</span>
@@ -119,7 +118,7 @@ const AnalyticsPage = async () => {
 
               <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
                 <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-xl text-emerald-600 shadow-sm"><CheckCircle2 size={18}/></div>
+                  <div className="bg-white p-2 rounded-xl text-emerald-600 shadow-sm"><CheckCircle2 size={18} /></div>
                   <span className="text-sm font-bold text-slate-700">Completed</span>
                 </div>
                 <span className="text-lg font-black text-emerald-700">{analytics.bookingStatus.COMPLETED}</span>
@@ -127,7 +126,7 @@ const AnalyticsPage = async () => {
 
               <div className="flex items-center justify-between p-4 bg-red-50 rounded-2xl border border-red-100">
                 <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-xl text-red-600 shadow-sm"><XCircle size={18}/></div>
+                  <div className="bg-white p-2 rounded-xl text-red-600 shadow-sm"><XCircle size={18} /></div>
                   <span className="text-sm font-bold text-slate-700">Cancelled</span>
                 </div>
                 <span className="text-lg font-black text-red-700">{analytics.bookingStatus.CANCELLED}</span>
@@ -135,8 +134,8 @@ const AnalyticsPage = async () => {
             </div>
 
             <div className="mt-10 p-6 bg-primary/80 rounded-[1.5rem] text-center">
-               <p className="text-white text-xs font-bold uppercase tracking-widest mb-2">Total Volume</p>
-               <h4 className="text-2xl font-black text-white">{analytics.totalBookings}</h4>
+              <p className="text-white text-xs font-bold uppercase tracking-widest mb-2">Total Volume</p>
+              <h4 className="text-2xl font-black text-white">{analytics.totalBookings}</h4>
             </div>
           </div>
         </div>

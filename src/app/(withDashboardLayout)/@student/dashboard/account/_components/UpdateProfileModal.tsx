@@ -16,7 +16,7 @@ export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(currentData.image);
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       name: currentData.name || "",
       imageFile: null,
@@ -26,7 +26,7 @@ export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {
   const onSubmit = async (data: any) => {
     setIsUploading(true);
     setIsUpdating(true);
-    
+
     try {
       let imageUrl = currentData.image;
       if (data.imageFile?.[0]) {
@@ -43,7 +43,7 @@ export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {
         throw new Error(res.message || "Failed to update profile");
       }
       toast.success("Profile updated successfully!");
-      router.refresh(); 
+      router.refresh();
       onClose();
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
@@ -63,7 +63,7 @@ export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-          
+
           {/* Avatar Preview & File Input */}
           <div className="flex flex-col items-center gap-4">
             <div className="relative w-24 h-24">
@@ -77,9 +77,9 @@ export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {
               <label htmlFor="file-upload" className="absolute -bottom-1 -right-1 p-2 bg-[#2596be] text-white rounded-xl cursor-pointer shadow-lg hover:scale-110 transition-transform active:scale-95">
                 <Camera size={14} />
               </label>
-              <input 
+              <input
                 id="file-upload"
-                type="file" 
+                type="file"
                 accept="image/*"
                 className="hidden"
                 {...register('imageFile', {
@@ -98,25 +98,30 @@ export const UpdateProfileModal = ({ isOpen, onClose, currentData }: any) => {
             <label className="flex items-center gap-2 text-[10px] font-black uppercase text-slate-400 ml-1">
               <User size={12} /> Full Name
             </label>
-            <input 
-              {...register('name')}
+            <input
+              {...register('name', { required: 'Name is required' })}
               placeholder="Your full name"
               className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold focus:outline-none focus:border-[#2596be] focus:bg-white transition-all shadow-sm"
             />
+            {errors.name && (
+              <p className="text-[10px] text-red-500 ml-1 font-bold mt-1">
+                {errors.name.message as string}
+              </p>
+            )}
           </div>
 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-2">
-            <button 
-              type="button" 
-              onClick={onClose} 
+            <button
+              type="button"
+              onClick={onClose}
               className="flex-1 py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-slate-200 transition-colors"
             >
               Cancel
             </button>
-            <button 
+            <button
               disabled={isUploading || isUpdating}
-              type="submit" 
+              type="submit"
               className="flex-[2] py-4 bg-slate-900 text-white rounded-2xl font-bold text-[10px] uppercase tracking-[0.15em] shadow-lg flex items-center justify-center gap-2 hover:bg-[#2596be] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isUploading || isUpdating ? (

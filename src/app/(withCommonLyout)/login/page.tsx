@@ -41,9 +41,6 @@ const LoginPage = () => {
     const toastId = toast.loading('Logging in...');
     try {
       const { data, error } = await authClient.signIn.email(value);
-      // console.log({ data });
-      // console.log({ error });
-
       if (data) {
         if (data?.token) {
           const { user, token } = data;
@@ -177,8 +174,7 @@ const LoginPage = () => {
                 <div className="relative group">
                   <input
                     {...register('password', {
-                      required: 'Password is required',
-                      minLength: 8,
+                      required: 'Password is required'
                     })}
                     type={showPassword ? 'text' : 'password'}
                     className="w-full pl-11 pr-11 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 placeholder:text-slate-400 focus:outline-none focus:border-primary/40 focus:bg-white transition-all text-sm font-medium"
@@ -196,6 +192,11 @@ const LoginPage = () => {
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-400 text-[10px] font-medium mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               <button

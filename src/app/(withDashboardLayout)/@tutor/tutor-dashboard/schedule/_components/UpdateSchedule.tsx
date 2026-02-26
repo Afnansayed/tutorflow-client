@@ -41,6 +41,7 @@ const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
     register,
     handleSubmit,
     reset,
+    formState: { errors }
   } = useForm({
     defaultValues: schedule,
   });
@@ -110,6 +111,9 @@ const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
                 </option>
               ))}
             </select>
+            {errors.day_of_week && (
+              <p className="text-red-500 text-[10px] ml-1 mt-1">{errors.day_of_week?.message as string}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -122,6 +126,9 @@ const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
                 {...register('start_time', { required: 'Required' })}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all"
               />
+              {errors.start_time && (
+                <p className="text-red-500 text-[10px] ml-1 mt-1">{errors.start_time?.message as string}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -133,6 +140,9 @@ const UpdateScheduleModal = ({ schedule }: UpdateScheduleProps) => {
                 {...register('end_time', { required: 'Required' })}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:border-[#2596be]/50 transition-all"
               />
+              {errors.end_time && (
+                <p className="text-red-500 text-[10px] ml-1 mt-1">{errors.end_time?.message as string}</p>
+              )}
             </div>
           </div>
 

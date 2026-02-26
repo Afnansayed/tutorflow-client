@@ -25,6 +25,7 @@ const TutorProfileUpdateClient = ({ profile, categories }: any) => {
     register,
     handleSubmit,
     watch,
+    formState: { errors }
   } = useForm<UpdateTutorInputs>({
     defaultValues: {
       bio: profile?.bio,
@@ -118,6 +119,11 @@ const TutorProfileUpdateClient = ({ profile, categories }: any) => {
                 {...register('hourly_rate', { required: 'Required' })}
                 className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 focus:outline-none focus:border-[#2596be]/40 transition-all font-bold"
               />
+              {errors.hourly_rate && (
+                <p className="text-red-400 text-[10px] font-medium mt-1">
+                  {errors.hourly_rate.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -130,6 +136,11 @@ const TutorProfileUpdateClient = ({ profile, categories }: any) => {
               {...register('bio', { required: 'Bio cannot be empty' })}
               className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 focus:outline-none focus:border-[#2596be]/40 transition-all font-medium resize-none leading-relaxed"
             />
+            {errors.bio && (
+              <p className="text-red-400 text-[10px] font-medium mt-1">
+                {errors.bio.message}
+              </p>
+            )}
           </div>
 
           {/* Expertise Areas */}

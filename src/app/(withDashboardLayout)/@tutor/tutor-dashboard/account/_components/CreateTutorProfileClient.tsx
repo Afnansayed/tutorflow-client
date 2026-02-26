@@ -126,9 +126,13 @@ const CreateTutorProfileClient = ({ categories }: { categories: any[] }) => {
                 type="number"
                 step="0.01"
                 {...register('hourly_rate', { required: 'Hourly rate is required' })}
-                placeholder="0.00"
                 className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 focus:outline-none focus:border-[#2596be]/40 transition-all font-bold"
               />
+              {errors.hourly_rate && (
+                <p className="text-red-400 text-[10px] font-medium mt-1">
+                  {errors.hourly_rate.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -142,6 +146,11 @@ const CreateTutorProfileClient = ({ categories }: { categories: any[] }) => {
               placeholder="Describe your experience and teaching style..."
               className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 focus:outline-none focus:border-[#2596be]/40 transition-all font-medium resize-none"
             />
+            {errors.bio && (
+              <p className="text-red-400 text-[10px] font-medium mt-1">
+                {errors.bio.message}
+              </p>
+            )}
           </div>
 
           {/* Category Select */}

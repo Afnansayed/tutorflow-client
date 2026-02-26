@@ -34,7 +34,7 @@ const UpdateBookingStatusModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       status: currentStatus as BookingStatus,
     },
@@ -51,9 +51,9 @@ const UpdateBookingStatusModal = ({
 
       toast.success(`Status updated to ${formData.status}`);
       setOpen(false);
-  
-      router.refresh(); 
-      
+
+      router.refresh();
+
     } catch (error: any) {
       toast.error(error?.message || 'Failed to update status');
     } finally {
@@ -95,6 +95,9 @@ const UpdateBookingStatusModal = ({
                 </option>
               ))}
             </select>
+            {errors.status && (
+              <p className="text-red-500 text-[10px] ml-1 mt-1">{errors.status.message as string}</p>
+            )}
           </div>
 
           <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
