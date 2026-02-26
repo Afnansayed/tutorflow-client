@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { AppSidebar } from '@/components/DashboardCommonFile/AppSidebar';
+import { SidebarCloser } from '@/components/DashboardCommonFile/SidebarCloser';
 import { UserNav } from '@/components/DashboardCommonFile/UserNav';
 import {
   SidebarInset,
@@ -33,6 +34,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
+      <SidebarCloser />
       <AppSidebar user={userInfo} />
       <SidebarInset>
         {/* Header Section */}
@@ -51,7 +53,7 @@ export default async function DashboardLayout({
         </header>
 
         {/* Content Area */}
-        <main className="flex flex-1 flex-col gap-4 p-6 bg-gray-100 dark:bg-transparent">
+        <main className="flex flex-1 flex-col gap-4 p-2 md:p-6 bg-gray-100 dark:bg-transparent">
           {content}
         </main>
       </SidebarInset>
