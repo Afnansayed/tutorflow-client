@@ -39,7 +39,7 @@ const BecomeATutor = () => {
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-[#2596be] text-xs font-bold tracking-widest uppercase mb-6 border border-slate-200">
                 <Sparkles size={14} /> Elevate Your Teaching Career
               </div>
-              <h1 className=" text-3xl lg:text-5xl  font-black text-slate-900 leading-[1.1] mb-8">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] mb-8">
                 Your Expertise is <br />
                 <span className="text-[#2596be] relative">
                   Worth Sharing.
@@ -58,32 +58,32 @@ const BecomeATutor = () => {
                   </svg>
                 </span>
               </h1>
-              <p className="text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
+              <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
                 TutorFlow provides the technology and students; you provide the
                 inspiration. Join a global network of elite educators.
               </p>
 
-              <div className="flex flex-wrap gap-5">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-5">
                 <Link
                   href="/register?role=TUTOR"
-                  className="group px-8 py-2 bg-[#2596be] hover:bg-slate-900 text-white rounded-full font-bold text-lg transition-all duration-300 shadow-2xl shadow-[#2596be]/30 flex items-center gap-3"
+                  className="group px-6 sm:px-8 py-3 bg-[#2596be] hover:bg-slate-900 text-white rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-2xl shadow-[#2596be]/30 flex items-center justify-center gap-3"
                 >
                   Become a Tutor{' '}
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <button className="px-8 py-2 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-full font-bold text-lg transition-all flex items-center gap-2">
+                <button className="px-6 sm:px-8 py-3 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-full font-bold text-base sm:text-lg transition-all flex justify-center items-center gap-2">
                   <PlayCircle size={20} className="text-[#2596be]" /> Watch
                   Story
                 </button>
               </div>
 
-              <div className="mt-12 grid grid-cols-3 gap-8 pt-10 border-t border-slate-100">
+              <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-6 pt-10 border-t border-slate-100">
                 {stats.map((stat, i) => (
                   <div key={i}>
-                    <p className="text-2xl font-black text-slate-900">
+                    <p className="text-xl sm:text-2xl font-black text-slate-900">
                       {stat.value}
                     </p>
-                    <p className="text-sm text-slate-400 font-bold uppercase tracking-tighter">
+                    <p className="text-[10px] sm:text-sm text-slate-400 font-bold uppercase tracking-tighter">
                       {stat.label}
                     </p>
                   </div>
@@ -102,10 +102,10 @@ const BecomeATutor = () => {
                 <img
                   src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=2070&auto=format&fit=crop"
                   alt="Tutor"
-                  className="w-full h-[600px] object-cover"
+                  className="w-full h-[400px] md:h-[600px] object-cover"
                 />
                 {/* Floating Glass Card */}
-                <div className="absolute bottom-8 left-8 right-8 bg-white/70 backdrop-blur-xl p-6 rounded-[2rem] border border-white/50 shadow-2xl">
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 bg-white/70 backdrop-blur-xl p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-white/50 shadow-2xl">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-full bg-[#2596be] flex items-center justify-center text-white font-bold">
                       SJ
@@ -131,23 +131,23 @@ const BecomeATutor = () => {
 
       <div className="space-y-12 py-12 bg-white">
         {/* --- FEATURES SECTION (Modern Bento Style) --- */}
-        <section className="container-max">
-          <div className="bg-[#f0f9ff] rounded-[1.5rem] p-8 md:p-12 relative overflow-hidden border border-blue-50/50">
-            {/* Decorative Soft Glows */}
-            <div className="absolute -top-24 -right-24 w-[400px] h-[400px] bg-[#2596be]/10 blur-[100px] rounded-full" />
-            <div className="absolute -bottom-24 -left-24 w-[400px] h-[400px] bg-blue-200/20 blur-[100px] rounded-full" />
+        <section className="container-max px-4">
+          <div className="bg-[#f0f9ff] rounded-[1.5rem] p-6 md:p-12 relative overflow-hidden border border-blue-50/50">
+
+            <div className="absolute -top-24 -right-24 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-[#2596be]/10 blur-[80px] md:blur-[100px] rounded-full" />
+            <div className="absolute -bottom-24 -left-24 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-blue-200/20 blur-[80px] md:blur-[100px] rounded-full" />
 
             <div className="relative z-10">
-              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 gap-6 md:gap-8">
                 <div className="max-w-2xl">
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-blue-100 text-[#2596be] text-xs font-bold uppercase tracking-widest mb-6"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-blue-100 text-[#2596be] text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4 md:mb-6"
                   >
                     <Rocket size={14} /> The Future of Tutoring
                   </motion.div>
-                  <h2 className="text-3xl lg:text-4xl font-black text-slate-900 leading-tight tracking-tight">
+                  <h2 className="text-2xl md:text-4xl font-black text-slate-900 leading-tight tracking-tight">
                     Empowering your <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2596be] to-blue-500">
                       teaching empire.
@@ -156,7 +156,7 @@ const BecomeATutor = () => {
                 </div>
                 <Link
                   href="/register?role=TUTOR"
-                  className="group flex items-center gap-3 text-slate-700 font-bold bg-white hover:bg-slate-50 border border-slate-200 px-7 py-4 rounded-2xl transition-all shadow-sm"
+                  className="group w-full sm:w-auto flex items-center justify-center gap-3 text-slate-700 font-bold bg-white hover:bg-slate-50 border border-slate-200 px-7 py-4 rounded-2xl transition-all shadow-sm"
                 >
                   Explore all tools{' '}
                   <ArrowRight
@@ -166,19 +166,19 @@ const BecomeATutor = () => {
                 </Link>
               </div>
 
-              <div className="grid md:grid-cols-12 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
                 {/* Feature 1: Large Card */}
                 <motion.div
-                  whileHover={{ y: -10 }}
-                  className="md:col-span-7 group p-12 rounded-[1.5rem] bg-white border border-blue-100/50 shadow-[0_20px_50px_-20px_rgba(37,150,190,0.1)] transition-all duration-500"
+                  whileHover={{ y: -5 }}
+                  className="md:col-span-7 group p-6 md:p-10 rounded-[1.5rem] bg-white border border-blue-100/50 shadow-[0_20px_50px_-20px_rgba(37,150,190,0.1)] transition-all duration-500"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2596be] mb-10">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2596be] mb-6 md:mb-10">
                     <Banknote size={32} />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-800 mb-5 tracking-tight">
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-800 mb-3 md:mb-5 tracking-tight">
                     Keep 100% Earnings
                   </h3>
-                  <p className="text-slate-500  leading-relaxed max-w-md font-medium">
+                  <p className="text-sm md:text-base text-slate-500 leading-relaxed max-w-md font-medium">
                     We don't take a cut. Your hard work belongs to you.
                     Experience the industry's most transparent payment model.
                   </p>
@@ -186,16 +186,16 @@ const BecomeATutor = () => {
 
                 {/* Feature 2: Side Card */}
                 <motion.div
-                  whileHover={{ y: -10 }}
-                  className="md:col-span-5 group p-12 rounded-[1.5rem] bg-gradient-to-br from-white to-blue-50/30 border border-blue-100/50 shadow-sm transition-all duration-500"
+                  whileHover={{ y: -5 }}
+                  className="md:col-span-5 group p-6 md:p-10 rounded-[1.5rem] bg-gradient-to-br from-white to-blue-50/30 border border-blue-100/50 shadow-sm transition-all duration-500"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-[#2596be]/10 flex items-center justify-center text-[#2596be] mb-10">
+                  <div className="w-14 h-14 rounded-2xl bg-[#2596be]/10 flex items-center justify-center text-[#2596be] mb-6 md:mb-10">
                     <Zap size={28} />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-800 mb-5 tracking-tight">
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-800 mb-3 md:mb-5 tracking-tight">
                     Smart Scheduling
                   </h3>
-                  <p className="text-slate-500 leading-relaxed font-medium">
+                  <p className="text-sm md:text-base text-slate-500 leading-relaxed font-medium">
                     Automated booking that syncs with your timezone. Focus on
                     teaching, not emails.
                   </p>
@@ -203,34 +203,37 @@ const BecomeATutor = () => {
 
                 {/* Feature 3: Long Horizontal Card */}
                 <motion.div
-                  whileHover={{ y: -10 }}
-                  className="md:col-span-12 group p-10 rounded-[1.5rem] bg-white border border-blue-100/50 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10"
+                  whileHover={{ y: -5 }}
+                  className="md:col-span-12 group p-6 md:p-10 rounded-[1.5rem] bg-white border border-blue-100/50 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10"
                 >
-                  <div className="max-w-md">
+                  <div className="max-w-md w-full">
                     <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 mb-6">
                       <ShieldCheck size={28} />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800 mb-3 tracking-tight">
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-800 mb-3 tracking-tight">
                       Verified Identity
                     </h3>
-                    <p className="text-slate-500 font-medium leading-relaxed">
+                    <p className="text-sm md:text-base text-slate-500 font-medium leading-relaxed">
                       Build instant trust with a verified badge. Premium
                       students look for quality and security.
                     </p>
                   </div>
-                  <div className="flex -space-x-4 pr-4">
+
+                  {/* Avatars */}
+                  <div className="flex -space-x-3 md:-space-x-4 self-start md:self-center">
                     {[1, 2, 3, 4, 5].map(i => (
                       <div
                         key={i}
-                        className="w-14 h-14 rounded-full border-4 border-white bg-slate-100 overflow-hidden shadow-sm"
+                        className="w-10 h-10 md:w-14 md:h-14 rounded-full border-2 md:border-4 border-white bg-slate-100 overflow-hidden shadow-sm"
                       >
                         <img
                           src={`https://i.pravatar.cc/150?u=tutor${i}`}
                           alt="user"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     ))}
-                    <div className="w-14 h-14 rounded-full border-4 border-white bg-[#2596be] flex items-center justify-center font-bold text-white text-sm shadow-sm">
+                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-full border-2 md:border-4 border-white bg-[#2596be] flex items-center justify-center font-bold text-white text-[10px] md:text-sm shadow-sm">
                       +2k
                     </div>
                   </div>
@@ -261,7 +264,7 @@ const BecomeATutor = () => {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
-                className="flex items-center gap-4 px-10 py-5 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] transition-all cursor-default group"
+                className="flex items-center w-full justify-center md:justify-start md:w-auto gap-4 px-6 md:px-10 py-5 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] transition-all cursor-default group"
               >
                 <span className="text-[#2596be] group-hover:scale-125 transition-transform duration-300">
                   {item.icon}
@@ -301,7 +304,7 @@ const BecomeATutor = () => {
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <Link
                   href="/register?role=TUTOR"
-                  className="group px-10 py-2 bg-white text-[#2596be] hover:bg-slate-900 hover:text-white rounded-xl font-black  transition-all duration-300 flex items-center gap-3 shadow-xl active:scale-95"
+                  className="group px-6 sm:px-10 flex-1 w-full text-center justify-center py-3 md:py-4 bg-white text-[#2596be] hover:bg-slate-900 hover:text-white rounded-xl font-black transition-all duration-300 flex items-center gap-3 shadow-xl active:scale-95 whitespace-nowrap"
                 >
                   Apply Now — It's Free
                   <ArrowRight
@@ -312,7 +315,7 @@ const BecomeATutor = () => {
 
                 <Link
                   href="/contact"
-                  className="px-8 py-2 bg-transparent border border-white/30 text-white hover:bg-white/10 rounded-xl font-bold transition-all"
+                  className="px-6 md:px-8 py-3 flex-1 w-full flex text-center justify-center md:py-4 bg-transparent border border-white/30 text-white hover:bg-white/10 rounded-xl font-bold transition-all whitespace-nowrap"
                 >
                   Talk to Experts
                 </Link>
